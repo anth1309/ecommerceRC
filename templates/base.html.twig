@@ -17,19 +17,19 @@
     
         {% include "_partials/_nav.html.twig" %}
 
-		{# {% if app.user  and app.user.is_Verified == false %}
+		{% if app.user  and app.user.is_Verified == false %}
 			<div class="alert alert-warning alert-dismissible" role="alert">
 				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
 				<div class="alert-message">
 					<strong>
 						Votre compte est inactif</strong>,
-					<a href='{{path('resend_verif')}}'>
+					<a href='{{ path ('resend_verif')}}'>
 						Renvoyé le lien d activation</a>
 				</div>
 			</div>
-		{% endif %} #}
+		{% endif %} 
 
-		{# {% include "_partials/_flash.html.twig" %} #}
+		{% include "_partials/_flash.html.twig" %} 
 
 		
 
