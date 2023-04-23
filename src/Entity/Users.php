@@ -54,6 +54,9 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?Bool $is_verified = false;
 
+    #[ORM\Column(length: 128)]
+    private ?string $resetToken = null;
+
     #[ORM\OneToMany(mappedBy: 'users', targetEntity: Orders::class)]
     private Collection $orders;
 
@@ -233,6 +236,20 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIs_verified(bool $is_verified): self
     {
         $this->is_verified = $is_verified;
+
+        return $this;
+    }
+
+
+    public function getResetToken(): ?string
+    {
+        return $this->resetToken;
+    }
+
+
+    public function setResetToken(string $resetToken): self
+    {
+        $this->resetToken = $resetToken;
 
         return $this;
     }

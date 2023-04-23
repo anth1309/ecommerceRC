@@ -61,7 +61,7 @@ class RegistrationController extends AbstractController
             );
 
             $mail->send(
-                'no-reply@RcCham.com',
+                'no-reply@rccham.com',
                 $user->getEmail(),
                 'Activation de votre compte sur le site RcCham',
                 'register',
