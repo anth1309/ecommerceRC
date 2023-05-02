@@ -1,5 +1,10 @@
 {% extends "base.html.twig" %}
 
+{% block javascripts %}
+	{{ parent() }}
+	{{ encore_entry_script_tags ('images') }}
+{% endblock %}
+
 {% block title %}
 	Administration des produits
 {% endblock %}
@@ -13,6 +18,4 @@
 			</div>
 		</section>
 	</main>
-
-
 {% endblock %}

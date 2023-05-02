@@ -10,19 +10,27 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProductsRepository::class)]
 class Products
 {
     use CreatedAtTrait;
     use SlugTrait;
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 128)]
+    #[Assert\NotBlank(message: 'Ce champs ne peut pas être vide !')]
+    #[Assert\Length(
+        min: 5,
+        max: 100,
+        minMessage: 'Le nom du produit doit contenir au moins{{ limit }} caracteres ',
+        maxMessage: 'Le nom du produit doit contenir au plus {{ limit }} caacteres '
+
+    )]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT)]
@@ -32,13 +40,14 @@ class Products
     private ?int $price = null;
 
     #[ORM\Column]
+    #[Assert\PositiveOrZero(message: 'Le stock ne peut pas etre négatif')]
     private ?int $stock = null;
 
     #[ORM\ManyToOne(inversedBy: 'products')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Categories $categories = null;
 
-    #[ORM\OneToMany(mappedBy: 'products', targetEntity: Images::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'products', targetEntity: Images::class, orphanRemoval: true, cascade: ['persist'])]
     private Collection $images;
 
     #[ORM\OneToMany(mappedBy: 'products', targetEntity: OrdersDetails::class)]

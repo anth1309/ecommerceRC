@@ -32,18 +32,6 @@ class CategoriesFixtures extends Fixture
         $this->createCategory('Recepteurs', $parent, manager: $manager);
         $this->createCategory('Batteries', $parent, manager: $manager);
         $this->createCategory('Moteurs', $parent, manager: $manager);
-
-        // $parentDeux = new Categories();
-        // $parentDeux->setName('Thermique');
-        // $parentDeux->setSlug($this->slugger->slug($parentDeux->getName())->lower());
-        // $manager->persist($parentDeux);
-
-        // $category = new Categories();
-        // $category->setName('Camions');
-        // $category->setSlug($this->slugger->slug($category->getName())->lower());
-        // $category->setParent($parentDeux);
-        // $manager->persist($category);
-
         $manager->flush();
     }
     public function createCategory(string $name, Categories $parent = null, ObjectManager $manager)
