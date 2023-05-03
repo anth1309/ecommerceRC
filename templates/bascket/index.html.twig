@@ -1,0 +1,78 @@
+{% extends "base.html.twig" %}
+
+
+{# {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+{% endblock %} #}
+
+
+
+{% block title %}Panier de
+	{{ app.user.firstname }}
+{% endblock %}
+
+{% block body %}
+	<main class="container">
+		<section class="row">
+
+
+			{% if bascketsWithData | length >0 %}
+				<div class="col-12 my-3">
+					<h1>{{ app.user.firstname }}
+						Voici votre panier</h1>
+				</div>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Produit</th>
+							<th>Prix</th>
+							<th>Quantité</th>
+							<th>Total</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for bascketWithData in bascketsWithData %}
+
+							<tr class="my-1">
+								<td>{{ bascketWithData.product.name }}</td>
+								<td>
+									{{ bascketWithData.product.price / 100 }}
+									€</td>
+								<td>
+									{{ bascketWithData.quantity  }}
+								</td>
+								<td>{{ (bascketWithData.product.price / 100) * bascketWithData.quantity}}</td>
+								<td>
+									<a href="" class="btn btn-danger ">
+										<i class="fa-regular fa-trash-can"></i>
+									</a>
+								</td>
+							</tr>
+
+						{% endfor %}
+					</tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="3">Total : </td>
+                        <td> {{ total }} €</td>
+                        <td></td>
+                    </tr>
+                    </tfoot>
+				</table>
+			{% else %}
+				<div class="col-12 my-3">
+					<h1>{{ app.user.firstname }}
+						votre panier est vide !</h1>
+				</div>
+
+			{% endif %}
+		</section>
+	</main>
+
+
+{% endblock %}
