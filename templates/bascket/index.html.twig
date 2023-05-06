@@ -10,7 +10,6 @@
 {% endblock %} #}
 
 
-
 {% block title %}Panier de
 	{{ app.user.firstname }}
 {% endblock %}
@@ -22,8 +21,8 @@
 
 			{% if bascketsWithData | length >0 %}
 				<div class="col-12 my-3">
-					<h1>{{ app.user.firstname }}
-						Voici votre panier</h1>
+					<h1>{{ app.user.firstname|capitalize }}
+						voici votre panier</h1>
 				</div>
 				<table class="table">
 					<thead>
@@ -46,33 +45,55 @@
 								<td>
 									{{ bascketWithData.quantity  }}
 								</td>
-								<td>{{ (bascketWithData.product.price / 100) * bascketWithData.quantity}}</td>
+								<td>{{ (bascketWithData.product.price / 100) * bascketWithData.quantity}} €</td>
 								<td>
-									<a href="" class="btn btn-danger ">
+									<a href="{{ path ('bascket_cut' ,{'id': bascketWithData.product.id}) }}" class="btn btn-danger ">
+										-
+									</a>
+									<a href="{{ path ('bascket_remove', {'id': bascketWithData.product.id} ) }}" class="btn btn-danger ">
 										<i class="fa-regular fa-trash-can"></i>
+									</a>
+									<a href="{{ path ('bascket_add' ,{'id': bascketWithData.product.id}) }}" class="btn btn-danger ">
+										+
 									</a>
 								</td>
 							</tr>
 
 						{% endfor %}
 					</tbody>
-                    <tfoot>
-                    <tr>
-                        <td colspan="3">Total : </td>
-                        <td> {{ total }} €</td>
-                        <td></td>
-                    </tr>
-                    </tfoot>
-				</table>
-			{% else %}
-				<div class="col-12 my-3">
-					<h1>{{ app.user.firstname }}
-						votre panier est vide !</h1>
-				</div>
+					<tfoot>
+						<tr>
+							<td colspan="3" class="text-right">Total :
+							</td>
+							<td>
+								{{ total }}
+								€</td>
 
-			{% endif %}
-		</section>
-	</main>
+							<td><a href="{{ path ('bascket_removeAll') }}" class="btn btn-warning">
+					supprimer le panier
+				</a></td>
+						</tr>
+					</tfoot>
+				
+				
+			</td>
+		</tr>
+	</tfoot>
+</table>{% else %}
+<div class="col-12 my-3">
+	<h1>{{ app.user.firstname|capitalize }}
+		votre panier est vide !</h1>
+
+{% endif %}
+<div class="row col-12 my-2 justify-content-around">
+
+<a class='achat link col-3 ' href="">Valider mon panier</a>
+
+{# {{ path ('checkout')}} #}
 
 
+<a class='achat link col-3 ' href="{{ path ('main') }}">Continuer mes achats</a>
+</div>
+</section>
+</main>
 {% endblock %}

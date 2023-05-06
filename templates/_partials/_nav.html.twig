@@ -3,13 +3,13 @@
 	<div class="container-fluid">
 		<a class="navbar-brand" href=" {{ path ( 'main' ) }} ">RcCham</a>
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon">fffff</span>
+			{# <span class="navbar-toggler-icon">fffff</span> #}
 		</button>
 		<div class="collapse navbar-collapse" id="navbarColor01">
 			<ul class="navbar-nav me-auto">
 				<li class="nav-item">
 					<a class="nav-link " href="{{ path ( 'main' ) }}">Accueil
-						<span class="visually-hidden">(current)</span>
+						{# <span class="visually-hidden">{{ (current) | replace("search", "replace") }}</span> #}
 					</a>
 				</li>
 				<li class="nav-item">
@@ -28,7 +28,7 @@
 							{% if is_granted('ROLE_PRODUCT_ADMIN')  %}
 								<div class="dropdown-divider"></div>
 								<a class="dropdown-item" href=" {{ path ('admin_index') }} ">ADMINISTRATION</a>
-							{% endif %}
+							{% endif %} 
 						</div>
 					</li>
 
