@@ -17,9 +17,6 @@ class ProfileController extends AbstractController
     #[Route('/', name: 'index')]
     public function index(UsersRepository $usersRepository): Response
     {
-        // return $this->render('profile/index.html.twig', [
-        //     'controller_name' => 'Profil de l\'utilisateur',
-        // ]);
 
         $lastUser = $usersRepository->findOneBy([], ['id' => 'DESC']);
         return $this->render('profile/index.html.twig', compact('lastUser'));
@@ -39,5 +36,14 @@ class ProfileController extends AbstractController
         return $this->render('profile/index.html.twig', [
             'controller_name' => 'Produits de l\'utilisateur',
         ]);
+    }
+
+    #[Route('/utilisateur', name: 'user')]
+    public function profilUser(): Response
+    {
+
+        $user = $this->getUser();
+        dump($user);
+        return $this->render('profile/user.html.twig', compact('user'));
     }
 }

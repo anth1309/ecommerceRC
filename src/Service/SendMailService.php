@@ -19,20 +19,14 @@ class SendMailService
         string $subject,
         string $template,
         array $context,
-
-
     ): void {
-        //creation du mail
+
         $email = (new TemplatedEmail())
             ->from($from)
             ->to($to)
             ->subject($subject)
             ->htmlTemplate("emails/$template.html.twig")
             ->context($context);
-
-
-        //on envoie
-
         $this->mailer->send($email);
     }
 }

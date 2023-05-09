@@ -231,11 +231,13 @@ $border: 1px solid rgba($yellow, .5);
     color: white;
     border: solid;
     border-radius: 30px;
-    padding-left: 5px;
-    padding-right: 5px;
+    padding-left: 8px;
+    padding-right: 8px;
+    text-decoration: none;
 }
 
 .link {
+    color: black;
     text-decoration: none;
 }
 
@@ -247,4 +249,13 @@ $border: 1px solid rgba($yellow, .5);
     color: white;
     border: solid 5px;
     border-radius: 30px;
+}
+
+.category {
+    background: $darkgrey;
+    border: solid 5px;
+    border-radius: 30px;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }

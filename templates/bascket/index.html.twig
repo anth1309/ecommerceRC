@@ -1,14 +1,8 @@
 {% extends "base.html.twig" %}
 
-
-{# {% block stylesheets %}
-        {{ encore_entry_link_tags('app') }}
-{% endblock %}
-
 {% block javascripts %}
-	{{ parent() }}
-{% endblock %} #}
-
+            {{ encore_entry_script_tags('checkout') }}
+{% endblock %}
 
 {% block title %}Panier de
 	{{ app.user.firstname }}
@@ -27,6 +21,7 @@
 				<table class="table">
 					<thead>
 						<tr>
+						
 							<th>Produit</th>
 							<th>Prix</th>
 							<th>Quantité</th>
@@ -51,7 +46,7 @@
 										-
 									</a>
 									<a href="{{ path ('bascket_remove', {'id': bascketWithData.product.id} ) }}" class="btn btn-danger ">
-										<i class="fa-regular fa-trash-can"></i>
+										<i class="fa fa-user-circle-o" aria-hidden="true">
 									</a>
 									<a href="{{ path ('bascket_add' ,{'id': bascketWithData.product.id}) }}" class="btn btn-danger ">
 										+
@@ -65,9 +60,9 @@
 						<tr>
 							<td colspan="3" class="text-right">Total :
 							</td>
-							<td>
-								{{ total }}
-								€</td>
+							<td id="total">						
+								{{ total }} €
+							</td>
 
 							<td><a href="{{ path ('bascket_removeAll') }}" class="btn btn-warning">
 					supprimer le panier
@@ -79,17 +74,18 @@
 			</td>
 		</tr>
 	</tfoot>
-</table>{% else %}
+</table>
+{% else %}
 <div class="col-12 my-3">
 	<h1>{{ app.user.firstname|capitalize }}
 		votre panier est vide !</h1>
 
 {% endif %}
 <div class="row col-12 my-2 justify-content-around">
+{% if bascketsWithData | length >0 %}
+<a class='achat link col-3 ' href="{{ path ('checkout') }}">Valider mon panier</a>
+{% endif %}
 
-<a class='achat link col-3 ' href="">Valider mon panier</a>
-
-{# {{ path ('checkout')}} #}
 
 
 <a class='achat link col-3 ' href="{{ path ('main') }}">Continuer mes achats</a>

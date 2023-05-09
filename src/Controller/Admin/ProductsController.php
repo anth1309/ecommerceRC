@@ -28,7 +28,7 @@ class ProductsController extends AbstractController
     #[Route('/ajout', name: 'add')]
     public function add(Request $request, EntityManagerInterface $em, SluggerInterface $slugger, PictureService $pictureService): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $this->denyAccessUnlessGranted('ROLE_PRODUCT_ADMIN');
         $product = new Products();
         $productForm = $this->createForm(ProductsFormType::class, $product);
         $productForm->handleRequest($request);
@@ -61,7 +61,7 @@ class ProductsController extends AbstractController
     #[Route('/edition/{id}', name: 'edit')]
     public function edit(Products $product, Request $request, EntityManagerInterface $em, SluggerInterface $slugger, PictureService $pictureService): Response
     {
-        $this->denyAccessUnlessGranted('PRODUCT_EDIT', $product);
+        $this->denyAccessUnlessGranted('ROLE_PRODUCT_ADMIN', $product);
         $productForm = $this->createForm(ProductsFormType::class, $product);
         $productForm->handleRequest($request);
         if ($productForm->isSubmitted() && $productForm->isValid()) {

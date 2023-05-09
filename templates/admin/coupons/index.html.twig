@@ -1,0 +1,48 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Liste des coupons
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<div class="row">
+			{% include "_partials/_adminnav.html.twig" %}
+			<main class="col-9 border border-light bt-white p-2">
+				<h1>Liste des coupons</h1>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Code</th>
+							<th>Description</th>
+							<th>Remise</th>
+							<th>Nombre d 'utilisation</th>
+							<th>Date d'émission</th>
+							<th>Fin de validité</th>
+							<th>Type de reduction</th>
+							<th>Actif</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						{% for coupon in coupons %}
+							<tr>
+								<td>{{ coupon.code }}</td>
+								<td>{{ coupon.description }}</td>
+								<td>{{ coupon.discount }}</td>
+								<td>{{ coupon.maxUsage  }}</td>
+								<td>{{ coupon.createdAt|date("d/m/Y")  }}</td>
+								<td>{{ coupon.validity|date("d/m/Y") }}</td>
+								<td>{{ coupon.couponsTypes.name }}</td>
+								<td>{{ coupon.isValid }}</td>
+								<td>
+									<a href="{{ path('admin_coupons_send', {id: coupon.id} ) }}" class="btn btn-outline-warning">Envoyer</a>
+								</td>
+							</tr>
+
+						{% endfor %}
+					</tbody>
+				</table>
+			</main>
+		</div>
+	</div>
+{% endblock %}

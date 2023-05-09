@@ -19,16 +19,10 @@ class PdfService
     public function showPdfFile($html)
     {
         $this->domPdf->loadHtml($html);
+        $this->domPdf->setPaper('A4', 'portrait');
         $this->domPdf->render();
         $this->domPdf->stream("details.pdf", [
             'Attachement' => false
         ]);
-    }
-
-    public function generateBinaryPdfe($html)
-    {
-        $this->domPdf->loadHtml($html);
-        $this->domPdf->render();
-        $this->domPdf->output();
     }
 }

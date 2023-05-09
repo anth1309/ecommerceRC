@@ -3,27 +3,27 @@
 	<div class="container-fluid">
 		<a class="navbar-brand" href=" {{ path ( 'main' ) }} ">RcCham</a>
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-			{# <span class="navbar-toggler-icon">fffff</span> #}
 		</button>
 		<div class="collapse navbar-collapse" id="navbarColor01">
 			<ul class="navbar-nav me-auto">
 				<li class="nav-item">
-					<a class="nav-link " href="{{ path ( 'main' ) }}">Accueil
-						{# <span class="visually-hidden">{{ (current) | replace("search", "replace") }}</span> #}
-					</a>
+					<a class="nav-link " href="{{ path ( 'main' ) }}">Accueil</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="#">Produits</a>
 				</li>
 			</ul>
 
-
 			<ul class="navbar-nav ">
 				{% if app.user   %}
+					<li class="nav-item">
+						<a class="nav-link" href="{{ path ('bascket_index')}}">Mon panier</a>
+					</li>
 					<li class="nav-item dropdown">
+					
 						<a class="nav-link dropdown-toggle " data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Mon espace</a>
 						<div class="dropdown-menu">
-							<a class="dropdown-item" href="#">Profil</a>
+							<a class="dropdown-item" href="{{ path ('profile_user') }}">Profil</a>
 							<a class="dropdown-item" href=" {{ path ('app_logout')}} ">Déconexion</a>
 							{% if is_granted('ROLE_PRODUCT_ADMIN')  %}
 								<div class="dropdown-divider"></div>

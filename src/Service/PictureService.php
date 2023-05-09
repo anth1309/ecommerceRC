@@ -22,6 +22,7 @@ class PictureService
         if ($picture_infos === false) {
             throw new Exception('Format d\'image incorrect');
         }
+
         switch ($picture_infos['mime']) {
 
             case 'image/png':

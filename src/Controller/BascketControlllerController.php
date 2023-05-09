@@ -36,6 +36,7 @@ class BascketControlllerController extends AbstractController
         return $this->redirectToRoute('bascket_index');
     }
 
+
     #[Route("/panier/moins-un/{id}", name: "bascket_cut")]
     public function cut($id)
     {
@@ -57,10 +58,10 @@ class BascketControlllerController extends AbstractController
         return $this->redirectToRoute('bascket_index');
     }
 
-    // #[Route("/panier/pdf", name: "bascket_pdf")]
-    // public function createPdf(PdfService $pdfService)
-    // {
-    //     $html = $this->render('bascket/index.html.twig');
-    //     $pdfService->showPdfFile($html);
-    // }
+    #[Route("/panier/pdf", name: "bascket_pdf")]
+    public function createPdf(PdfService $pdfService)
+    {
+        $html = $this->render('bascket/index.html.twig');
+        $pdfService->showPdfFile($html);
+    }
 }
