@@ -13,9 +13,11 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/admin/produits', name: 'admin_products_')]
+#[IsGranted('ROLE_PRODUCT_ADMIN')]
 class ProductsController extends AbstractController
 {
     #[Route('/', name: 'index')]

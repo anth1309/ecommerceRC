@@ -42,14 +42,14 @@
 								</td>
 								<td>{{ (bascketWithData.product.price / 100) * bascketWithData.quantity}} €</td>
 								<td>
-									<a href="{{ path ('bascket_cut' ,{'id': bascketWithData.product.id}) }}" class="btn btn-danger ">
+									<a href="{{ path ('bascket_cut' ,{'id': bascketWithData.product.id}) }}" class="btn btn-warning ">
 										-
 									</a>
-									<a href="{{ path ('bascket_remove', {'id': bascketWithData.product.id} ) }}" class="btn btn-danger ">
-										<i class="fa fa-user-circle-o" aria-hidden="true">
+									<a href="{{ path ('bascket_remove', {'id': bascketWithData.product.id} ) }}" class="btn btn-danger " >
+										<i class="fa-regular fa-trash-can"></i>
 									</a>
-									<a href="{{ path ('bascket_add' ,{'id': bascketWithData.product.id}) }}" class="btn btn-danger ">
-										+
+									<a href="{{ path ('bascket_add' ,{'id': bascketWithData.product.id}) }}" class="btn btn-success ">+
+										
 									</a>
 								</td>
 							</tr>

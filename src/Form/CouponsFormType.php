@@ -54,17 +54,12 @@ class CouponsFormType extends AbstractType
 
                 'label' => 'Reduction en cours validité'
             ])
-            //->add('created_at')
+
             ->add('coupons_types', EntityType::class, [
                 'class' => CouponsTypes::class,
                 'choice_label' => 'name',
                 'label' => 'Types de coupons',
-                // 'group_by' => 'parent.name',
-                // 'query_builder' => function (CouponsTypesRepository $cr) {
-                //     return $cr->createQueryBuilder('category')
-                //         ->where('category.parent IS NOT NUll')
-                //         ->orderBy('category.name', 'ASC');
-                //}
+
             ]);
     }
 
@@ -75,14 +70,3 @@ class CouponsFormType extends AbstractType
         ]);
     }
 }
-
-
-// ->add('price', MoneyType::class, options: [
-//     'label' => 'Prix',
-//     'divisor' => 100,
-//     'constraints' => [
-//         new Positive(
-//             message: 'Le prix ne peut pas être négatif'
-//         )
-//     ]
-// ])

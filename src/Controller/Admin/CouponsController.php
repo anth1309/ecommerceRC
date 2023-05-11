@@ -15,9 +15,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/admin/coupons', name: 'admin_coupons_')]
+#[IsGranted('ROLE_ADMIN')]
 class CouponsController extends AbstractController
 {
 

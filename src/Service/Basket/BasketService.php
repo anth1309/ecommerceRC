@@ -86,6 +86,7 @@ class BasketService
     {
         $session = $this->requestStack->getSession();
         $bascket = $session->get('bascket', []);
+
         $session->remove("bascket");
     }
 }
