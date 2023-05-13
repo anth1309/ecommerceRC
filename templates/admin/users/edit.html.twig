@@ -1,0 +1,21 @@
+{% extends "base.html.twig" %}
+
+{% block javascripts %}
+	{{ parent() }}
+	{{ encore_entry_script_tags ('images') }}
+{% endblock %}
+
+{% block title %}
+	Administration des utilisateurs
+{% endblock %}
+
+{% block body %}
+	<main class="container">
+		<section class="row">
+			<div class="col-12">
+				<h1>Modifier un utilisateur<h1>
+				{% include "admin/users/_form.html.twig" with {'button_label': 'Modifier'} %}
+			</div>
+		</section>
+	</main>
+{% endblock %}

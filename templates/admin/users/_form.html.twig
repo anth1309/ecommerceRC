@@ -1,0 +1,22 @@
+<main class="container">
+	<section class="row">
+		<div class="col-12 ">
+			{{ form_start(userForm) }}</div>
+		<div class="col-12 my-3">{{ form_row(userForm.firstname,  { attr: { 'class': 'form-control' }}) }}</div>
+		<div class="col-12 my-3">{{ form_row(userForm.lastname, { attr: { 'class': 'form-control' }}) }}</div>
+		<div class="col-12 my-3">{{ form_row(userForm.email, { attr: { 'class': 'form-control' }}) }}</div> 
+		<div class="col-12 my-3">{{ form_row(userForm.adress, { attr: { 'class': 'form-control' }}) }}</div>	
+		<div class="col-12 my-3">{{ form_row(userForm.zipcode, { attr: { 'class': 'form-control' }}) }}</div>
+		<div class="col-12 my-3">{{ form_row(userForm.city, { attr: { 'class': 'form-control' }}) }}</div>	
+		{# //<div class="col-12 my-3">{{ form_row(userForm.roles, { attr: { 'class': 'form-control' }}) }}</div>	
+		 #}
+		
+		 <div class="col-12 my-3">
+		<button type="submit" class="btn btn-primary">{{ button_label|default('AJOUTER') }}</button>
+	    </div>
+	    {{ form_end(userForm) }}
+        </div>
+    </section>
+</main>
+
+

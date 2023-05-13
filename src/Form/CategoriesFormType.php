@@ -15,19 +15,21 @@ class CategoriesFormType extends AbstractType
     {
         $builder
             ->add('name', options: [
-                'label' => 'Nom'
+                'label' => 'Catégorie'
             ])
 
             ->add('parent', EntityType::class, [
                 'class' => Categories::class,
                 'choice_label' => 'name',
-                'label' => 'Catégorie',
+                'label' => 'Catégorie Parent',
                 'group_by' => 'parent.name',
                 'query_builder' => function (CategoriesRepository $cr) {
                     return $cr->createQueryBuilder('category')
                         ->where('category.parent IS NUll')
                         ->orderBy('category.name', 'ASC');
-                }
+                },
+                'placeholder' => 'Choisir une catégorie',
+                'required' => false,
             ]);
     }
 

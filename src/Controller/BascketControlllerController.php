@@ -65,18 +65,16 @@ class BascketControlllerController extends AbstractController
         return $this->redirectToRoute('bascket_index');
     }
 
-    #[Route("/panier/pdf", name: "bascket_pdf")]
-    #[IsGranted('ROLE_USER')]
-    public function createPdf(PdfService $pdfService)
-    {
-        $bascketWithData = $this->basketService->getFullBasket();
-        $total = $this->basketService->getTotal();
-        $html = $this->render('bascket/index.html.twig', [
-            'bascketsWithData' => $bascketWithData,
-            'total' => $total / 100
-        ]);
-        $pdfService->showPdfFile($html);
-
-        //return $this->redirectToRoute('main');
-    }
+    // #[Route("/panier/pdf", name: "bascket_pdf")]
+    // #[IsGranted('ROLE_USER')]
+    // public function createPdf(PdfService $pdfService)
+    // {
+    //     $bascketWithData = $this->basketService->getFullBasket();
+    //     $total = $this->basketService->getTotal();
+    //     $html = $this->renderView('bascket/details.html.twig', [
+    //         'bascketsWithData' => $bascketWithData,
+    //         'total' => $total / 100
+    //     ]);
+    //     $pdfService->showPdfFile($html);
+    // }
 }

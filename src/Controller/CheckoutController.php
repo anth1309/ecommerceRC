@@ -40,44 +40,32 @@ class CheckoutController extends AbstractController
     {
         $date = new DateTimeImmutable();
         $dateString = $date->format('Y-m-d H:i:s');
-
         $session = $this->requestStack->getSession();
         $bascket = $session->get('bascket', []);
-        $orderId = $session->get('orderId');
 
-        if ($orderId) {
-            $order = $this->ordersRepository->find($orderId);
-        } else {
-            $order = (new Orders())
-                //->setCoupons(12)
-                ->setUsers($this->getUser())
-                ->setReference($this->getUser()->getLastname() . '-' . $dateString)
-                ->setCreatedAt(new DateTimeImmutable('now'));
-            $this->entityManager->persist($order);
+        $order = (new Orders())
+            //->setCoupons(12)
+            ->setUsers($this->getUser())
+            ->setReference($this->getUser()->getLastname() . '-' .  $dateString)
+            ->setCreatedAt(new DateTimeImmutable('now'));
+        $this->entityManager->persist($order);
+        $this->entityManager->flush();
+
+        $lastId = $this->ordersRepository->findOneBy([], ['id' => 'desc']);
+
+        foreach ($bascket as $key => $value) {
+            $productId = $key;
+            $product = $this->entityManager->getRepository(Products::class)->find($productId);
+            $ordersDetails = (new OrdersDetails())
+                ->setOrders($lastId)
+                ->setQuantity($value)
+                ->setPrice($product->getPrice())
+                ->setProducts($product);
+            $this->entityManager->persist($ordersDetails);
             $this->entityManager->flush();
-
-            $orderId = $order->getId();
-            $session->set('orderId', $orderId);
         }
-
-        //$lastId = $this->ordersRepository->findOneBy([], ['id' => 'desc']);
-
-        // foreach ($bascket as $key => $value) {
-        //     $productId = $key;
-        //     $product = $this->entityManager->getRepository(Products::class)->find($productId);
-        //     $ordersDetails = (new OrdersDetails())
-        //         ->setOrders($lastId)
-        //         ->setQuantity($value)
-        //         ->setPrice($product->getPrice())
-        //         ->setProducts($product);
-        //     $this->entityManager->persist($ordersDetails);
-        //     $this->entityManager->flush();
-        //     $this->basketService->removeAll();
-        // }
-
+        $this->basketService->removeAll();
         $this->addFlash('success', 'Félicitation pour votre achat, nous traitons votre commande sous les plus brefs délais');
-        // $session->remove("orderId");
-        //$session->remove('bascket');
-        return $this->redirectToRoute('bascket_pdf');
+        return $this->redirectToRoute('main');
     }
 }

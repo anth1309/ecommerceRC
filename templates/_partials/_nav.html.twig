@@ -24,7 +24,7 @@
 						<a class="nav-link dropdown-toggle " data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Mon espace</a>
 						<div class="dropdown-menu">
 							<a class="dropdown-item" href="{{ path ('profile_user') }}">Profil</a>
-							<a class="dropdown-item" href=" {{ path ('app_logout')}} ">Déconexion</a>
+							<a class="dropdown-item" href=" {{ path ('app_logout')}} ">Déconnexion</a>
 							{% if is_granted('ROLE_PRODUCT_ADMIN')  %}
 								<div class="dropdown-divider"></div>
 								<a class="dropdown-item" href=" {{ path ('admin_index') }} ">ADMINISTRATION</a>

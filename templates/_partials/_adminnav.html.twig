@@ -50,9 +50,20 @@
 		<div class="card-body">
 			<p>
 				{% if  is_granted('ROLE_ADMIN') %}
-					<a class='achat' href="{{ path('admin_users_index') }}">Liste des Utilisateurs</a>
+					
+					<p>
+					<a class='achat' href="{{ path ('admin_users_index') }}">Liste des Utilisateurs</a>
+				</p>
+				<p>				
+					<a class='achat' href=" {{ path ('app_register')}}">Créer un Utilisateur</a>
+				</p>
 				{% else %}
-					<a class='achat' href="#">Liste des Utilisateurs</a>
+						<p>
+					<a class='achat' href="">Liste des Utilisateurs</a>
+				</p>
+				<p>				
+					<a class='achat' href="">Créer un Utilisateur</a>
+				</p>
 				{% endif %}            
 			</p>
 
