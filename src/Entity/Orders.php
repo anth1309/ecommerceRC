@@ -31,6 +31,9 @@ class Orders
     #[ORM\OneToMany(mappedBy: 'orders', targetEntity: OrdersDetails::class, orphanRemoval: true)]
     private Collection $ordersDetails;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $total = null;
+
     public function __construct()
     {
         $this->ordersDetails = new ArrayCollection();
@@ -106,6 +109,18 @@ class Orders
                 $ordersDetail->setOrders(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTotal(): ?int
+    {
+        return $this->total;
+    }
+
+    public function setTotal(?int $total): self
+    {
+        $this->total = $total;
 
         return $this;
     }

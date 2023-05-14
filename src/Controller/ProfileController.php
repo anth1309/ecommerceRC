@@ -3,6 +3,10 @@
 namespace App\Controller;
 
 use App\Repository\UsersRepository;
+use App\Entity\Orders;
+use App\Entity\OrdersDetails;
+use App\Repository\OrdersDetailsRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,28 +27,42 @@ class ProfileController extends AbstractController
         return $this->render('profile/index.html.twig', compact('lastUser'));
     }
 
-    #[Route('/commandes', name: 'orders')]
-    public function orders(): Response
+
+    #[Route('/orders', name: 'commande')]
+    public function orders(EntityManagerInterface $em): Response
     {
-        return $this->render('profile/index.html.twig', [
-            'controller_name' => 'Commande de l\'utilisateur',
+        $user = $this->getUser();
+
+        $orders = $em->getRepository(Orders::class)->findBy(['users' => $user], ['created_at' => 'desc']);
+        return $this->render('orders/index.html.twig', [
+            'orders' => $orders,
         ]);
     }
 
-    #[Route('/produits', name: 'products')]
-    public function products(): Response
+
+    #[Route('/orders/detail/{id}', name: 'commande_detail')]
+    public function ordersDetails($id, OrdersDetailsRepository $ordersDetails): Response
     {
-        return $this->render('profile/index.html.twig', [
-            'controller_name' => 'Produits de l\'utilisateur',
-        ]);
+
+        $details = $ordersDetails->findBy(['orders' => $id]);
+
+        dump($details);
+        return $this->render(
+            'orders/detailCommande.html.twig',
+            compact('details')
+        );
     }
+
+
+
+
+
 
     #[Route('/utilisateur', name: 'user')]
     public function profilUser(): Response
     {
 
         $user = $this->getUser();
-        dump($user);
         return $this->render('profile/user.html.twig', compact('user'));
     }
 }

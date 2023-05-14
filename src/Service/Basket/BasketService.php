@@ -82,6 +82,8 @@ class BasketService
         }
         return $total;
     }
+
+
     public function removeAll()
     {
         $session = $this->requestStack->getSession();

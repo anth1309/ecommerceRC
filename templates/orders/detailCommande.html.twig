@@ -1,0 +1,57 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Commande de
+	{{ app.user.firstname }}
+{% endblock %}
+
+{% block body %}
+	<main class="container">
+		<section class="row">
+
+			<div class="col-12 my-3">
+				<h1>{{ app.user.firstname|capitalize }}
+					voici vos commandes</h1>
+			</div>
+			<table class="table">
+				<thead>
+					<tr>
+						<th class='text-center'>Commande du</th>
+						<th class='text-center'>Produit</th>
+						<th class='text-center'>Quantité</th>
+						<th class='text-center'>Prix unitaire</th>
+						<th class='text-center'>Prix </th>
+					</tr>
+				</thead>
+				<tbody>
+                     {% set total = 0 %}
+					{% for detail in details %}
+                    {% set total = detail.orders.total %}
+						<tr class="my-1">   
+							<td class='text-center'>{{ detail.products.createdAt | date('d.m.Y') }}</td>					
+							<td class='text-center'>{{ detail.products.name }}</td>
+							<td class='text-center'>{{ detail.quantity }}</td>
+							<td class='text-center'>{{ detail.price / 100 }} €</td>
+							<td class='text-center'>{{ (detail.price / 100) * (detail.quantity)}} €</td>
+                        </tr> 
+                       
+                  
+					{% endfor %}
+				</tbody>
+                        <tfoot>
+                            <tr class="my-1">                
+                                <td colspan="3" class="text-left">Total :</td>
+                                <td class='text-center'> {{ total / 100}} €</td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
+			</table>
+
+			<div class="col-12 my-3">
+
+				<a class='achat link col-3 ' href="{{ path ('main') }}">Retour a l'accueil</a>
+			</div>
+		</section>
+	</main>
+{% endblock %}
+
+

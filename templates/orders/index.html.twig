@@ -1,0 +1,14 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Commande de
+	{{ app.user.firstname }}
+{% endblock %}
+
+{% block body %}
+	<main class="container">
+		<section class="row">
+            {% include "/orders/details.html.twig" %}			
+        </section>
+    </main>
+{% endblock %}
+

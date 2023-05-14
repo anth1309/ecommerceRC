@@ -42,12 +42,13 @@ class CheckoutController extends AbstractController
         $dateString = $date->format('Y-m-d H:i:s');
         $session = $this->requestStack->getSession();
         $bascket = $session->get('bascket', []);
-
+        $total = $this->basketService->getTotal();
         $order = (new Orders())
             //->setCoupons(12)
             ->setUsers($this->getUser())
             ->setReference($this->getUser()->getLastname() . '-' .  $dateString)
-            ->setCreatedAt(new DateTimeImmutable('now'));
+            ->setCreatedAt(new DateTimeImmutable('now'))
+            ->setTotal($total);
         $this->entityManager->persist($order);
         $this->entityManager->flush();
 
