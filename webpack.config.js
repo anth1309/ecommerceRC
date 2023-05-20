@@ -24,6 +24,7 @@ Encore
     .addEntry('images', './assets/js/images.js')
     .addEntry('checkout', './assets/js/checkout.js')
     .addEntry('user', './assets/js/user.js')
+    .addEntry('codePromo', './assets/js/codePromo.js')
 
 
 

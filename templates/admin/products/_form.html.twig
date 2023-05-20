@@ -2,23 +2,23 @@
 	<section class="row">
 		<div class="col-12 ">
 			{{ form_start(productForm) }}</div>
-		<div class="col-12 my-3">{{ form_row(productForm.name,  { attr: { 'class': 'form-control' }}) }}</div>
-		<div class="col-12 my-3">{{ form_row(productForm.description, { attr: { 'class': 'form-control' }}) }}</div>
-		<div class="col-12 my-3">{{ form_row(productForm.categories, { attr: { 'class': 'form-control' }}) }}</div> 
-		<div class="col-12 my-3">{{ form_row(productForm.price, { attr: { 'class': 'form-control' }}) }}</div>
-		<div class="col-12 my-3">{{ form_row(productForm.stock, { attr: { 'class': 'form-control' }}) }}</div>	
+		<div class="col-md-6 col-12 my-3">{{ form_row(productForm.name,  { attr: { 'class': 'form-control' }}) }}</div>
+		<div class="col-md-6 col-12 my-3">{{ form_row(productForm.description, { attr: { 'class': 'form-control' }}) }}</div>
+		<div class="col-md-6 col-12 my-3">{{ form_row(productForm.categories, { attr: { 'class': 'form-control' }}) }}</div> 
+		<div class="col-md-6 col-12 my-3">{{ form_row(productForm.price, { attr: { 'class': 'form-control' }}) }}</div>
+		<div class="col-md-6 col-12 my-3">{{ form_row(productForm.stock, { attr: { 'class': 'form-control' }}) }}</div>	
 		{% if app.request.attributes.get('_route') == 'admin_products_edit' %}
 			<h2>Images</h2>
 			{% for image in product.images %}
-				<div>
+				<div class='col-md-6 col-12  my-1'>
 					<img src="{{ asset('uploads/products/mini/300x300-' ~ image.name ) }}" alt="Image" width="150">
-					<a href="{{ path('admin_products_delete_image', {id: image.id}) }}" data-delete data-token="{{ csrf_token('delete' ~ image.id )}}">Supprimer</a>
+					<a href="{{ path('admin_products_delete_image', {id: image.id}) }}" data-delete data-token="{{ csrf_token('delete' ~ image.id )}}"><i class="fa-regular fa-trash-can text-danger"></i></a>
 				</div>
 			{% endfor %}
 		{% endif %}
 		 <div class="col-12 my-3">{{ form_row(productForm.images, { attr: { 'class': 'form-control' }}) }}</div>
 		 <div class="col-12 my-3">
-		<button type="submit" class="btn btn-primary">{{ button_label|default('AJOUTER') }}</button>
+		<button type="submit" class="btn achat">{{ button_label|default('AJOUTER') }}</button>
 	    </div>
 	    {{ form_end(productForm) }}
         </div>

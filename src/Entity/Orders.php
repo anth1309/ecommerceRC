@@ -18,7 +18,7 @@ class Orders
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 32, unique: true)]
+    #[ORM\Column(length: 128, unique: true)]
     private ?string $reference = null;
 
     #[ORM\ManyToOne(inversedBy: 'orders')]
@@ -33,6 +33,9 @@ class Orders
 
     #[ORM\Column(nullable: true)]
     private ?int $total = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $totalDiscount = null;
 
     public function __construct()
     {
@@ -121,6 +124,18 @@ class Orders
     public function setTotal(?int $total): self
     {
         $this->total = $total;
+
+        return $this;
+    }
+
+    public function getTotalDiscount(): ?int
+    {
+        return $this->totalDiscount;
+    }
+
+    public function setTotalDiscount(?int $totalDiscount): self
+    {
+        $this->totalDiscount = $totalDiscount;
 
         return $this;
     }

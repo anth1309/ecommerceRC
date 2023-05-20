@@ -1,11 +1,12 @@
-<p>
+<h1>
 	Bonjour
 	{{user.firstname|upper}}
-	{{user.lastname|capitalize}}
-</p>
-<p>Jusqu'au {{ coupon.validity|date("d/m/Y") }} {{ coupon.description }} avec le code {{ coupon.code }} .
+	{{user.lastname|capitalize}} <br>
+</h1>
+<p>Jusqu'au {{ coupon.validity|date("d/m/Y") }} .</p>
+<p>Vous avez {{ coupon.description }} avec le code {{ coupon.code }} . <br></p>
 	
-</p>
+
 <p>
 	A bientot sur RcCham
 </p>

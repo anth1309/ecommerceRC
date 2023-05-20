@@ -6,8 +6,7 @@
 {% block body %}
 	<div class="container">
 		<div class="row">
-			{# {% include "_partials/_adminnav.html.twig" %} #}
-			<main class="col-9 border border-light bt-white p-2">
+			<main class="col-9 p-2">
 				<h1>Votre profil sur le site RcCham</h1>
 				<table class="table">
 					<thead>
@@ -17,19 +16,16 @@
 							<th>Nom</th>
 							<th>Courriel</th>
 							<th>Rôle</th>
-							<th>Vérifié</th>
-							
+							<th>Vérifié</th>	
 						</tr>
 					</thead>
 
-					<tbody>
-						
+					<tbody>				
 							<tr>
 								<td>{{ user.id }}</td>
 								<td>{{ user.firstname}}</td>
 								<td>{{ user.lastname }}</td>
 								<td>{{ user.email }}</td>
-
 								<td>
 									{% for role in user.roles %}
 										{% if role == "ROLE_ADMIN" %}
@@ -46,20 +42,14 @@
 											{{ name }}
 										</span>
 									{% endfor %}
-
-
 								</td>
-								<td>
-									
+								<td>									
 									<div class="form-check form-switch">
                                         <input class="form-check-input" type="checkbox" role="switch" id="switch{{ user.id }}" {{ user.is_verified ? "checked" : "" }} disabled>
                                         <label class="form-check-label" for="switch{{ user.id }}"></label>
                                     </div>
-
 								</td>
-							
-
-						
+							</tr>					
 					</tbody>
 				</table>
                 <div class"col-12"><a href="{{ path('profile_commande') }}" class="achat">Voir mes commandes</a></div>

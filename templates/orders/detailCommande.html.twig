@@ -24,14 +24,21 @@
 				</thead>
 				<tbody>
                      {% set total = 0 %}
+                     {% set discount = 0 %}
+                     {% set totalDiscount = 0 %}
+					
 					{% for detail in details %}
                     {% set total = detail.orders.total %}
+					{% if detail.orders.coupons %}
+                    {% set discount = detail.orders.coupons.description %} 
+					{% set totalDiscount = detail.orders.totalDiscount %}
+					{% endif %}
 						<tr class="my-1">   
 							<td class='text-center'>{{ detail.products.createdAt | date('d.m.Y') }}</td>					
-							<td class='text-center'>{{ detail.products.name }}</td>
+							<td class='text-center'>{{ detail.products.name|capitalize }}</td>
 							<td class='text-center'>{{ detail.quantity }}</td>
-							<td class='text-center'>{{ detail.price / 100 }} €</td>
-							<td class='text-center'>{{ (detail.price / 100) * (detail.quantity)}} €</td>
+							<td class='text-center'>{{ (detail.price / 100)| format_currency('EUR') }} </td>
+							<td class='text-center'>{{ ((detail.price / 100) * (detail.quantity))| format_currency('EUR') }} €</td>
                         </tr> 
                        
                   
@@ -40,9 +47,17 @@
                         <tfoot>
                             <tr class="my-1">                
                                 <td colspan="3" class="text-left">Total :</td>
-                                <td class='text-center'> {{ total / 100}} €</td>
+                                <td class='text-center'> {{( total / 100)| format_currency('EUR') }} </td>
                                 <td></td>
                             </tr>
+							{% if discount %}							
+							<tr>
+								<td class='fontPerso' colspan="2">Vous avez utilisez un bon de : {{ discount }} </td>
+								<td  class='text-center bold'>Prix aprés remise : </td>
+								<td class='text-center'>{{( totalDiscount / 100)| format_currency('EUR') }}</td>
+								<td></td>
+							</tr>
+							{% endif %}
                         </tfoot>
 			</table>
 

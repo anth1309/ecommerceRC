@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+
+{% block javascripts %}
+	{{ parent() }}
+	{{ encore_entry_script_tags ('checkout') }}
+{% endblock %}
+{% block title %}Email de contact{{  app.user.firstname }} {% endblock %}
+
+{% block body %}
+<main class="container my-2">
+        <section class="row justify-content-center">
+            <div class="col-12 col-md-6">
+				<h1 class="my-2">Demande de renseignements</h1>
+
+				{{ form_start(formContact) }}
+
+					<div class="my-2">
+						{{ form_row(formContact.name) }}
+					</div>
+
+					<div class="my-2">
+						{{ form_row(formContact.email) }}
+					</div>
+
+					<div class="my-2">
+						{{ form_row(formContact.question) }}
+					</div>
+
+					<div class="my-2">
+						{{ form_row(formContact.message) }}
+					</div>
+				
+				
+                    
+				<button type="submit" class=" my-3">Envoyer</button>
+
+				
+
+				{{ form_end(formContact) }}
+			 </div>
+        </section>
+</main>
+
+{% endblock %}

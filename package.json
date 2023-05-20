@@ -23,6 +23,9 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "bootstrap": "^5.2.3"
+        "bootstrap": "^5.2.3",
+        "cypress": "^12.12.0",
+        "sweetalert": "^2.1.2",
+        "sweetalert2": "^11.7.5"
     }
 }

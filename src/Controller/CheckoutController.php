@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Coupons;
 use App\Entity\Orders;
 use App\Entity\OrdersDetails;
 use App\Entity\Products;
@@ -43,12 +44,22 @@ class CheckoutController extends AbstractController
         $session = $this->requestStack->getSession();
         $bascket = $session->get('bascket', []);
         $total = $this->basketService->getTotal();
+        $coupon = null;
+        $totalDiscount = null;
+
+        $couponId = $session->get('coupon', []);
+        if ($couponId) {
+            $totalDiscount = $session->get('totaldiscount');
+            $coupon = $this->entityManager->getRepository(Coupons::class)->find($couponId);
+        }
+
         $order = (new Orders())
-            //->setCoupons(12)
+            ->setCoupons($coupon)
             ->setUsers($this->getUser())
             ->setReference($this->getUser()->getLastname() . '-' .  $dateString)
             ->setCreatedAt(new DateTimeImmutable('now'))
-            ->setTotal($total);
+            ->setTotal($total)
+            ->setTotalDiscount($totalDiscount);
         $this->entityManager->persist($order);
         $this->entityManager->flush();
 

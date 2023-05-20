@@ -1,20 +1,20 @@
 <main class="container">
 	<section class="row">
 		<div class="col-12 ">
-			{{ form_start(userForm) }}</div>
-		<div class="col-12 my-3">{{ form_row(userForm.firstname,  { attr: { 'class': 'form-control' }}) }}</div>
-		<div class="col-12 my-3">{{ form_row(userForm.lastname, { attr: { 'class': 'form-control' }}) }}</div>
-		<div class="col-12 my-3">{{ form_row(userForm.email, { attr: { 'class': 'form-control' }}) }}</div> 
-		<div class="col-12 my-3">{{ form_row(userForm.adress, { attr: { 'class': 'form-control' }}) }}</div>	
-		<div class="col-12 my-3">{{ form_row(userForm.zipcode, { attr: { 'class': 'form-control' }}) }}</div>
-		<div class="col-12 my-3">{{ form_row(userForm.city, { attr: { 'class': 'form-control' }}) }}</div>	
-		{# //<div class="col-12 my-3">{{ form_row(userForm.roles, { attr: { 'class': 'form-control' }}) }}</div>	
-		 #}
+			{{ form_start(userFormPartiel) }}</div>
+		<div class="col-12 my-3">{{ form_row(userFormPartiel.firstname,  { attr: { 'class': 'form-control' }}) }}</div>
+		<div class="col-12 my-3">{{ form_row(userFormPartiel.lastname, { attr: { 'class': 'form-control' }}) }}</div>
+		<div class="col-12 my-3">{{ form_row(userFormPartiel.email, { attr: { 'class': 'form-control' }}) }}</div> 
+		<div class="col-12 my-3">{{ form_row(userFormPartiel.adress, { attr: { 'class': 'form-control' }}) }}</div>	
+		<div class="col-12 my-3">{{ form_row(userFormPartiel.zipcode, { attr: { 'class': 'form-control' }}) }}</div>
+		<div class="col-12 my-3">{{ form_row(userFormPartiel.city, { attr: { 'class': 'form-control' }}) }}</div>	
+		<div class="col-12 my-3">{{ form_row(userFormPartiel.roles, { attr: { 'class': 'form-control' }}) }}</div>	
+		 
 		
 		 <div class="col-12 my-3">
 		<button type="submit" class="btn btn-primary">{{ button_label|default('AJOUTER') }}</button>
 	    </div>
-	    {{ form_end(userForm) }}
+	    {{ form_end(userFormPartiel) }}
         </div>
     </section>
 </main>

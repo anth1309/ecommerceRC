@@ -25,7 +25,7 @@ class ProductsFormType extends AbstractType
             ])
             ->add('description')
             ->add('price', MoneyType::class, options: [
-                'label' => 'Prix',
+                'label' => 'Prix ',
                 'divisor' => 100,
                 'constraints' => [
                     new Positive(

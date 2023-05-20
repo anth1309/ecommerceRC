@@ -29,7 +29,8 @@ class CouponsFormType extends AbstractType
                 'attr' => [
                     'class' => 'form-control'
                 ],
-                'label' => 'Description'
+                'label' => 'Description',
+
             ])
             ->add('discount', IntegerType::class, [
                 'attr' => [
@@ -44,6 +45,8 @@ class CouponsFormType extends AbstractType
                 'label' => 'Nombre d utilisation'
             ])
             ->add('validity', DateType::class, [
+                'widget' => 'single_text',
+
                 'required' => true,
                 'attr' => [
                     'class' => 'form-control'

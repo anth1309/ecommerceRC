@@ -1,5 +1,9 @@
 {% extends "base.html.twig" %}
 
+{% block javascripts %}
+	{{ parent() }}
+	{{ encore_entry_script_tags ('codePromo') }}
+{% endblock %}
 
 {% block title %}Panier de
 	{{ app.user.firstname }}

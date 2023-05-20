@@ -3,8 +3,10 @@
 namespace App\Form;
 
 use App\Entity\Users;
+use Doctrine\DBAL\Types\JsonType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -55,13 +57,13 @@ class RegistrationFormType extends AbstractType
                 ],
                 'label' => 'Ville'
             ])
-            ->add('RGPD', CheckboxType::class, [
-                'mapped' => false,
-                'constraints' => [
-                    new IsTrue([])
-                ],
-                'label' => 'RGPD '
-            ])
+            // ->add('RGPD', CheckboxType::class, [
+            //     'mapped' => false,
+            //     'constraints' => [
+            //         new IsTrue([])
+            //     ],
+            //     'label' => 'RGPD '
+            // ])
             ->add('plainPassword', PasswordType::class, [
                 'mapped' => false,
                 'attr' => [
@@ -79,6 +81,20 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
                 'label' => 'Mot de passe'
+            ])
+            ->add('roles', ChoiceType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ],
+                'choices' => [
+                    'Role User' => 'ROLE_USER',
+                    'Role Admin' => 'ROLE_ADMIN',
+                    'Role Admin Product' => 'ROLE_ADMIN_PRODUCT',
+                ],
+                'label' => 'Rôles',
+                'multiple' => true,
+                'expanded' => true,
+
             ]);
     }
 

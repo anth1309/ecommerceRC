@@ -15,14 +15,22 @@
 					
 							{% if products  %}
 							{% for product in products.data %}
-								<div class="col-3 mb-3 ">
+						
+								<div class="col-md-3 col-12 mb-3 ">
 									<article class="card h-100">
 										<img src="{{ asset('uploads/products/mini/300x300-' ~ product.images[0].name ) }}" alt="{{ product.name }}"> 
-										<div "card-body">
-											<h2 class="card-title">{{ product.name }}</h2>
-											<p class="card-text ">{{ product.description }}</p>
-
-											<a href="{{path('products_details',{"slug": product.slug})}}" class="btn btn-card details  "> Voir les details</a>
+										<div "card-body fixed">
+											<div class='fixed'>
+											<h2 class="card-title mx-2">{{ product.name }}</h2>
+											<p class="card-text mx-2 mb-2 ">{{ product.description }} </p>
+											<br><br><br>
+											</div>
+										
+										
+											
+											<div >
+											<a href="{{path('products_details',{"slug": product.slug})}}" class="boutonDetail m-2"> Voir les details</a>
+											</div>
 										</div>
 				
 									</article>

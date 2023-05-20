@@ -1,77 +1,123 @@
-{% if bascketsWithData | length >0 %}
-				<div class="col-12 my-3">
-					<h1>{{ app.user.firstname|capitalize }}
-						voici votre panier</h1>
-				</div>
-				<table class="table">
-					<thead>
-						<tr>
-						
-							<th>Produit</th>
-							<th>Prix</th>
-							<th>Quantité</th>
-							<th>Total</th>
-							<th></th>
-						</tr>
-					</thead>
-					<tbody>
-						{% for bascketWithData in bascketsWithData %}
+{% if bascketsWithData   %}
+	<div class="col-12 my-3">
+		<h1>{{ app.user.firstname|capitalize }}
+			voici votre panier</h1>
+	</div>
+	<table class="table">
+		<thead>
+			<tr>
 
-							<tr class="my-1">
-								<td>{{ bascketWithData.product.name }}</td>
-								<td>
-									{{ bascketWithData.product.price / 100 }}
-									€</td>
-								<td>
-									{{ bascketWithData.quantity  }}
-								</td>
-								<td>{{ (bascketWithData.product.price / 100) * bascketWithData.quantity}} €</td>
-								<td>
-									<a href="{{ path ('bascket_cut' ,{'id': bascketWithData.product.id}) }}" class="btn btn-warning ">
-										-
-									</a>
-									<a href="{{ path ('bascket_remove', {'id': bascketWithData.product.id} ) }}" class="btn btn-danger " >
-										<i class="fa-regular fa-trash-can"></i>
-									</a>
-									<a href="{{ path ('bascket_add' ,{'id': bascketWithData.product.id}) }}" class="btn btn-success ">+
-										
-									</a>
-								</td>
-							</tr>
+				<th>Produit</th>
+				<th>Prix</th>
+				<th>Quantité</th>
+				<th>Total</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for bascketWithData in bascketsWithData %}
 
-						{% endfor %}
-					</tbody>
-					<tfoot>
-						<tr>
-							<td colspan="3" class="text-right">Total :
-							</td>
-							<td id="total">						
-								{{ total }} €
-							</td>
+				<tr class="my-1">
+					<td>{{ bascketWithData.product.name }}</td>
+					<td>
+						{{ (bascketWithData.product.price / 100)| format_currency('EUR') }}
+						</td>
+					<td>
+						{{ bascketWithData.quantity  }}
+					</td>
+					<td>{{ ((bascketWithData.product.price / 100) * bascketWithData.quantity)| format_currency('EUR')}}
+						</td>
+					<td class='text-center'>
+						<a href="{{ path ('bascket_cut' ,{'id': bascketWithData.product.id}) }}" class="btn btn-warning ">
+							-
+						</a>
+						<a href="{{ path ('bascket_remove', {'id': bascketWithData.product.id} ) }}" class="btn btn-danger ">
+							<i class="fa-regular fa-trash-can"></i>
+						</a>
+						<a href="{{ path ('bascket_add' ,{'id': bascketWithData.product.id}) }}" class="btn btn-success ">+
 
-							<td><a href="{{ path ('bascket_removeAll') }}" class="btn btn-warning">
-					supprimer le panier
-				</a></td>
-						</tr>
-					</tfoot>
-				
-				
-			>
-		</tr>
-	</tfoot>
-</table>
+						</a>
+					</td>
+				</tr>
+
+			{% endfor %}
+		</tbody>
+		<tfoot>
+			<tr>
+
+				<td colspan="3" class="text-right">Total :
+				</td>
+				<td id="total">
+					{{ total| format_currency('EUR') }}
+					
+				</td>
+				<td class='text-center'>
+					<a href="{{ path ('bascket_removeAll') }}" class="achat">Supprimer le panier<a/> 
+				</td> 
+			</tr>
+				{% if codeDescription is not empty %} 
+				<tr> 
+					<td colspan="4"> {{ codeDescription.description | capitalize }} </td> 
+					<td class='text-center'> 
+						<a href=" {{ path ('bascket_deleteCoupon') }} " class="btn btn-danger ">
+							<i class="fa-regular fa-trash-can"></i>
+						</a>
+					</td>
+			</tr>
+			<tr>
+				<td colspan="3">Le prix total aprés remise est de :</td>
+					{% if newTotal   %}
+						<td>{{ newTotal| format_currency('EUR') }} </td>
+					{% endif %}
+			</tr>
+		</tfoot>
+	
+
+{% endif %}
+	</table>
 {% else %}
-<div class="col-12 my-3">
-	<h1>{{ app.user.firstname|capitalize }}
-		votre panier est vide !</h1>
-
-{% endif %}
-<div class="row col-12 my-2 justify-content-around">
-{% if bascketsWithData | length >0 %}
-<a class='achat link col-3 ' href="{{ path ('checkout') }}">Valider mon panier</a>
+	<div class="col-12 my-3"><h1>{{ app.user.firstname|capitalize }} votre panier est vide !</h1>
 {% endif %}
 
+<div class="row col-12 my-2  justify-content-between h4">
+	{% if bascketsWithData is defined  %}
+		<a class='achat  col-3 text-center' href="{{ path ('checkout') }}">Valider mon panier</a>
+	{% endif %}
+		<a class='achat  col-3 text-center' href="{{ path ('main') }}">Continuer mes achats</a>
+	{% if bascketsWithData   %}
 
 
-<a class='achat link col-3 ' href="{{ path ('main') }}">Continuer mes achats</a>
+<a class="achat col-3 text-center" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Ajouter un code promo</a>
+
+
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Votre Réduction</h5>
+        <p type="button" class="text-danger" data-bs-dismiss="modal" aria-label="Close"><i class="fa-regular fa-rectangle-xmark"></i></p>
+      </div>
+      <div class="modal-body">
+        	<form action="{{ path ('order_add_coupon') }}" method="POST" class="form-inline">
+				<div class="form-group">
+					<div class="input-group">
+						<span class="input-group-addon text-success"><i class="fa-solid fa-thumbs-up"> </i></span>
+						<input type="text" name="code" autocomplete="off" class="form-control" placeholder="Code de Réduction"/><br><br>
+					</div>
+					
+					<div><br></div>
+						
+				</div>
+					<div class="modal-footer">
+						<button type="submit">Ajouter</button>
+					</div>
+			</form>
+      </div>
+     
+    </div>
+  </div>
+</div>
+
+	{% endif %}
 </div>
