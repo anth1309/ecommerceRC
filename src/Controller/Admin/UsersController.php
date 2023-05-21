@@ -19,11 +19,11 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class UsersController extends AbstractController
 {
     private $formFactory;
-
     public function __construct(FormFactoryInterface $formFactory)
     {
         $this->formFactory = $formFactory;
     }
+
 
     #[Route('/', name: 'index')]
     public function index(UsersRepository $usersRepository): Response
@@ -32,21 +32,20 @@ class UsersController extends AbstractController
         return $this->render('admin/users/index.html.twig', compact('users'));
     }
 
+
     #[Route('/edition/{id}', name: 'edit')]
     public function edit(Users $user, Request $request, EntityManagerInterface $em)
     {
-
-
         $formBuilderPartiel = $this->formFactory->createBuilder(RegistrationFormType::class, $user);
         $formBuilderPartiel->remove('plainPassword');
         $userFormPartiel = $formBuilderPartiel->getForm();
-
         $userFormPartiel->handleRequest($request);
+
         if ($userFormPartiel->isSubmitted() && $userFormPartiel->isValid()) {
             $em->persist($user);
             $em->flush();
-            $this->addFlash('success', 'Utilisateur modifié avec succès');
 
+            $this->addFlash('success', 'Utilisateur modifié avec succès');
             return $this->redirectToRoute('admin_users_index');
         }
 
@@ -55,6 +54,7 @@ class UsersController extends AbstractController
             'users' => $user,
         ]);
     }
+
 
     #[Route('/detete/{id}', name: 'delete')]
     public function delete(

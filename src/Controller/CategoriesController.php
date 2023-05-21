@@ -14,16 +14,11 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted('ROLE_USER')]
 class CategoriesController extends AbstractController
 {
-
     #[Route('/{slug}', name: 'list')]
     public function details(Categories $category, ProductsRepository $productsRepository, Request $request): Response
     {
-
         $page = $request->query->getInt('page', 1);
-
-
         $products = $productsRepository->findProductsPaginated($page, $category->getSlug(), 2);
-
 
         return $this->render(
             'categories/list.html.twig',

@@ -11,8 +11,6 @@ class PdfService
     private $domPdf;
     public function __construct(
         private RequestStack $requestStack,
-
-
     ) {
 
         $this->domPdf = new Dompdf();
@@ -21,27 +19,19 @@ class PdfService
         $this->domPdf->setOptions($pdfOptions);
     }
 
+
     public function showPdfFile($html)
     {
-
         $session = $this->requestStack->getSession();
         $bascket = $session->get('bascket', []);
         $lastReference = $session->get('lastReference');
-
         $fichier = $lastReference . '.pdf';
-
         $this->domPdf->loadHtml($html);
         $this->domPdf->setPaper('A4', 'portrait');
         $this->domPdf->render();
-
         $this->domPdf->stream($fichier, [
             'Attachement' => false
         ]);
-
-
-
-
-
         // $session->remove('bascket');
         //$session->remove("orderId");
     }

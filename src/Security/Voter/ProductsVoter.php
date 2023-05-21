@@ -20,6 +20,7 @@ class ProductsVoter extends Voter
         $this->security = $security;
     }
 
+
     protected function supports(string $attribute, $product): bool
     {
         if (!in_array($attribute, [self::EDIT, self::DELETE])) {
@@ -30,6 +31,7 @@ class ProductsVoter extends Voter
         }
         return true;
     }
+
 
     protected function voteOnAttribute($attribute, $product, TokenInterface $token): bool
 

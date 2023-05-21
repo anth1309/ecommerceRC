@@ -3,7 +3,6 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Coupons;
-use App\Entity\Users;
 use App\Form\CouponsFormType;
 use App\Repository\CouponsRepository;
 use App\Repository\UsersRepository;
@@ -21,9 +20,6 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted('ROLE_ADMIN')]
 class CouponsController extends AbstractController
 {
-
-
-
     #[Route('/', name: 'index')]
     public function index(CouponsRepository $couponsRepository): Response
 
@@ -45,16 +41,12 @@ class CouponsController extends AbstractController
             $em->flush();
 
             $this->addFlash('success', 'Coupons créer avec succès');
-
             return $this->redirectToRoute('admin_categories_index');
         }
-
-
         return $this->render('admin/coupons/form.html.twig', [
             'couponForm' => $couponForm->createView()
         ]);
     }
-
 
 
     #[Route("/admin/coupons/{id}", name: "send")]
@@ -64,8 +56,6 @@ class CouponsController extends AbstractController
         UsersRepository $usersRepository,
         CouponsRepository $couponsRepository,
     ) {
-
-
         $users = $usersRepository->createQueryBuilder('u')
             ->where('u.roles LIKE :role')
             ->setParameter('role', '%"ROLE_USER"%')

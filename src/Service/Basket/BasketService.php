@@ -19,12 +19,9 @@ class BasketService extends AbstractController
         private RequestStack $requestStack,
         ProductsRepository $productRepository,
         private EntityManagerInterface $em,
-
-
     ) {
         $this->productRepository = $productRepository;
     }
-
 
 
     public function add(int $id)
@@ -32,6 +29,7 @@ class BasketService extends AbstractController
         $session = $this->requestStack->getSession();
         $bascket = $session->get('bascket', []);
         $product = $this->productRepository->find($id);
+
         if (!empty($bascket[$id])) {
             if ($bascket[$id] < $product->getStock()) {
                 $bascket[$id]++;
@@ -45,10 +43,12 @@ class BasketService extends AbstractController
         $session->set('bascket', $bascket);
     }
 
+
     public function remove(int $id)
     {
         $session = $this->requestStack->getSession();
         $bascket = $session->get('bascket', []);
+
         if (!empty($bascket[$id])) {
             unset($bascket[$id]);
         } else {
@@ -57,11 +57,13 @@ class BasketService extends AbstractController
         $session->set('bascket', $bascket);
     }
 
+
     public function cut(int $id)
     {
 
         $session = $this->requestStack->getSession();
         $bascket = $session->get('bascket', []);
+
         if (!empty($bascket[$id])) {
             if ($bascket[$id] > 1) {
                 $bascket[$id]--;
@@ -73,11 +75,13 @@ class BasketService extends AbstractController
         $session->set('bascket', $bascket);
     }
 
+
     public function getFullBasket(): array
     {
         $session = $this->requestStack->getSession();
         $bascket = $session->get('bascket', []);
         $bascketWithData = [];
+
         foreach ($bascket as $id => $quantity) {
             $bascketWithData[] = [
                 'product' => $this->productRepository->find($id),
@@ -87,15 +91,18 @@ class BasketService extends AbstractController
         return $bascketWithData;
     }
 
+
     public function getTotal(): float
     {
 
         $bascketWithData = $this->getFullBasket();
         $total = 0;
+
         foreach ($bascketWithData as $item) {
             $totalBascketWithData = $item['product']->getPrice() * $item['quantity'];
             $total += $totalBascketWithData;
         }
+
         return $total;
     }
 
@@ -106,6 +113,7 @@ class BasketService extends AbstractController
         $session->remove("bascket");
         $session->remove('coupon');
     }
+
 
     public function removeCoupon()
     {
@@ -120,6 +128,7 @@ class BasketService extends AbstractController
         $request = $this->requestStack->getCurrentRequest();
         $code = $request->request->get('code');
         $couponType = null;
+
         if (!$code) {
             $this->addFlash('danger', 'Code promo manquant !');
         }
@@ -127,12 +136,14 @@ class BasketService extends AbstractController
             'code' => $code,
             'is_valid' => true
         ]);
+
         if ($codeCoupon) {
             $session->set('coupon', $codeCoupon);
             $couponType = $codeCoupon->getCouponsTypes()->getId();
         } else {
             $this->addFlash('danger', 'Code promo non valide !');
         }
+
         return $couponType;
     }
 }

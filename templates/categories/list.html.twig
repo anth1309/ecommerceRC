@@ -8,44 +8,34 @@
 	<main class="container">
 		<section class="row">
 			<div class="col-12 mb-3">
-				<h1>Liste des produits de la categorie
-					{{ category.name }}
-				</h1>
-				</div>
-					
-							{% if products  %}
-							{% for product in products.data %}
-						
-								<div class="col-md-3 col-12 mb-3 ">
-									<article class="card h-100">
-										<img src="{{ asset('uploads/products/mini/300x300-' ~ product.images[0].name ) }}" alt="{{ product.name }}"> 
-										<div "card-body fixed">
-											<div class='fixed'>
-											<h2 class="card-title mx-2">{{ product.name }}</h2>
-											<p class="card-text mx-2 mb-2 ">{{ product.description }} </p>
-											<br><br><br>
-											</div>
-										
-										
-											
-											<div >
-											<a href="{{path('products_details',{"slug": product.slug})}}" class="boutonDetail m-2"> Voir les details</a>
-											</div>
-										</div>
-				
-									</article>
-								</div>			
-							{% endfor %}
-							{% set path = 'categories_list' %}
-							{% set slug = category.slug %}
-							{% set pages = products.pages %}
-							{% set currentPage = products.page %}
-							{% include "_partials/_pagination.html.twig" %}
-							{% else %}
-								<h4>Des produits seront bientôt disponible pour cette Catégorie
-								<a href="{{ path ('main')}}" class='achat'>Revenir à l'accueil</a>
-								</h4>
-							{% endif %}
+				<h1>Liste des produits de la categorie {{ category.name }}</h1>
+			</div>				
+			{% if products  %}
+			{% for product in products.data %}				
+			<div class="col-md-3 col-12 mb-3 ">
+				<article class="card h-100">
+					<img src="{{ asset('uploads/products/mini/300x300-' ~ product.images[0].name ) }}" alt="{{ product.name }}"> 
+					<div "card-body fixed">
+						<div class='fixed'>
+							<h2 class="card-title mx-2">{{ product.name }}</h2>
+							<p class="card-text mx-2 mb-2 ">{{ product.description }} </p>
+							<br><br><br>
+						</div>																														
+							<div>
+							<a href="{{path('products_details',{"slug": product.slug})}}" class="boutonDetail m-2"> Voir les details</a>
+							</div>
+					</div>
+				</article>
+			</div>			
+			{% endfor %}
+			{% set path = 'categories_list' %}
+			{% set slug = category.slug %}
+			{% set pages = products.pages %}
+			{% set currentPage = products.page %}
+			{% include "_partials/_pagination.html.twig" %}
+			{% else %}
+			<h4>Des produits seront bientôt disponible pour cette Catégorie<a href="{{ path ('main')}}" class='achat'>Revenir à l'accueil</a></h4>
+			{% endif %}
 		</section>
 	</main>
 {% endblock %}

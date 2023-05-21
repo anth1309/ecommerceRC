@@ -20,7 +20,6 @@ class ProductsFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-
         $faker = Faker\Factory::create('fr_FR');
 
         for ($prod = 1; $prod <= 20; $prod++) {
@@ -30,14 +29,10 @@ class ProductsFixtures extends Fixture
             $product->setSlug($this->slugger->slug($product->getName())->lower());
             $product->setPrice($faker->numberBetween(500, 300000));
             $product->setStock($faker->numberBetween(0, 50));
-
-            //on va chercher une ref de categories dans CategoriesFixture
             $category = $this->getReference('cat-' . rand(1, 13));
             $product->setCategories($category);
-
             $this->setReference('prod-' . $prod, $product);
             $manager->persist($product);
-            // $this->addReference('prod' . $prod, $product);
         }
         $manager->flush();
     }

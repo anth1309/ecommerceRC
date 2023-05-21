@@ -1,36 +1,37 @@
-
-
-
-
 {% if orders | length >0 %}
-				<div class="col-12 my-3">
-					<h1>{{ app.user.firstname|capitalize }}
-						voici vos commandes</h1>
-				</div>
-				<table class="table">
-					<thead>
-						<tr>
-						
-							<th>Références</th>
-							<th>Date</th>
-							<th></th>
-						</tr>
-					</thead>
-					<tbody>
-						{% for order in orders %}
 
-							<tr class="my-1">
-								<td>{{ order.reference }}</td>
-								<td>{{ order.createdAt| date('d.m.Y') }}</td>
-								<td><a class='achat link col-3 ' href="{{ path ('profile_commande_detail',{"id": order.id}) }}">Voir les détails</a>	</td>
-							</tr>
-						{% endfor %}
-					</tbody>
-</table>
+	<div class="col-12 my-3">
+		<h1>{{ app.user.firstname|capitalize }}
+		voici vos commandes</h1>
+	</div>
+	<table class="table">
+		<thead>
+		<tr>					
+		<th>Références</th>
+		<th>Date</th>
+		<th></th>
+		</tr>
+		</thead>
+		<tbody>
+
+		{% for order in orders %}
+			<tr class="my-1">
+				<td>{{ order.reference }}</td>
+				<td>{{ order.createdAt| date('d.m.Y') }}</td>
+				<td><a class='achat link col-3 ' href="{{ path ('profile_commande_detail',{"id": order.id}) }}">Voir les détails</a></td>
+			</tr>
+		{% endfor %}
+
+		</tbody>
+	</table>
+
 {% else %}
-<div class="col-12 my-3">
-	 <h4>{{ app.user.firstname|capitalize }}
+
+	<div class="col-12 my-3">
+	 <p>{{ app.user.firstname|capitalize }}
 		Vous n avez pas encore de commande chez rcCham ! changer ça tres vite 
-        <a class='achat link col-3 ' href="{{ path ('main') }}">cliquez ici</a></h4>
+        <a class='achat link col-3 ' href="{{ path ('main') }}">cliquez ici</a>
+	</p>
+	</div>
 
 {% endif %}

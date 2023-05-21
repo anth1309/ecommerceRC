@@ -26,21 +26,17 @@ class JWTService
             $payload['iat'] = $now->getTimestamp();
             $payload['expiration'] = $expiration;
         }
-
         //on encode en base 64
         $base64Header = base64_encode(json_encode($header));
         $base64Payload = base64_encode(json_encode($payload));
-
         //on nettoie les valeurs encoder (retrait + / =)
         $base64Header = str_replace(['+', '/', '='], ['-', '_', ''], $base64Header);
         $base64Payload = str_replace(['+', '/', '='], ['-', '_', ''], $base64Payload);
-
         //generer la signature pour cela creer  $secret :dans le .env creer le JWT_SECRET='code perso' et dans services.yaml rajouter dans parameters app.jwtsecret: '%env(JWT_SECRET)%'
         $secret = base64_encode($secret);
         $signature = hash_hmac('sha256', $base64Header . '.' . $base64Payload, $secret, true);
         $base64Signature = base64_encode($signature);
         $base64Signature = str_replace(['+', '/', '='], ['-', '_', ''], $base64Signature);
-
         //creation du token
         $jwt = $base64Header . '.' . $base64Payload . '.' . $base64Signature;
 
@@ -48,7 +44,9 @@ class JWTService
 
         return $jwt;
     }
-    // on verify token bien formé
+
+
+    // on verify token bien formé 
     public function isValid(string $token): bool
     {
         return preg_match(
@@ -57,7 +55,9 @@ class JWTService
 
         ) === 1;
     }
-    //expiration du token donc recupere Payload
+
+
+    //expiration du token donc recupere Payload 
     public function getPayload(string $token): array
     {
         //demonte le token
@@ -66,6 +66,8 @@ class JWTService
         $payload = json_decode(base64_decode($array[1]), true);
         return $payload;
     }
+
+
     //on recupere le header
     public function getHeader(string $token): array
     {
@@ -73,6 +75,8 @@ class JWTService
         $header = json_decode(base64_decode($array[0]), true);
         return $header;
     }
+
+
     //on verifie l expiration
     public function isExpired(string $token): bool
     {
@@ -80,6 +84,8 @@ class JWTService
         $now = new DateTimeImmutable();
         return $payload['expiration'] < $now->getTimestamp();
     }
+
+
     //on verifie la signature du token
     public function check(string $token, string $secret)
     {

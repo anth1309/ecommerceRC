@@ -12,11 +12,13 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted('ROLE_USER')]
 class ProductsController extends AbstractController
 {
+
     #[Route('/', name: 'index')]
     public function index(): Response
     {
         return $this->render('products/index.html.twig');
     }
+
 
     #[Route('/{slug}', name: 'details')]
     public function details(Products $product): Response

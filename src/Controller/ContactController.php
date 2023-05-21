@@ -6,10 +6,7 @@ use App\Form\ContactFormType;
 use App\Service\SendMailService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
-//$context = $contactFormData['name'] . ' vous a envoyé le message suivant: ' . $contactFormData['message'];
 
 class ContactController extends AbstractController
 {
@@ -19,6 +16,7 @@ class ContactController extends AbstractController
         $user = $this->getUser();
         $formContact = $this->createForm(ContactFormType::class);
         $formContact->handleRequest($request);
+
         if ($formContact->isSubmitted() && $formContact->isValid()) {
             $contactFormData = $formContact->getData();
             $subject = 'Demande de contact sur votre site de ' .  $user->getLastname();
@@ -29,9 +27,11 @@ class ContactController extends AbstractController
                 'contact',
                 compact('user', 'contactFormData')
             );
+
             $this->addFlash('success', 'Votre message a bien été envoyé');
             return $this->redirectToRoute('main');
         }
+
         return $this->render('admin/users/contact.html.twig', [
             'formContact' => $formContact->createView()
         ]);

@@ -7,44 +7,36 @@
 	<section class="container">
 		<div class="row">
 			<div class="col">
-
 				<h1 class="my-2">Inscription</h1>
-
 				{{ form_start(registrationForm) }}
-
-				<fieldset>
+				<div class='row'>
+				<fieldset class='col-md-6 col-12'>
 					<legend class="my-2">Mon identité</legend>
 					<div class="my-2">
 						{{ form_row(registrationForm.lastname) }}
 					</div>
-
 					<div class="my-2">
 						{{ form_row(registrationForm.firstname) }}
 					</div>
-
 					<div class="my-2">
 						{{ form_row(registrationForm.email) }}
 					</div>
 				</fieldset>
 
-				<fieldset>
+				<fieldset class='col-md-6 col-12'>
 					<legend class="my-2">Mes coordonnées</legend>
 					<div class="my-2">
 						{{ form_row(registrationForm.adress) }}
 					</div>
-
 					<div class="my-2">
 						{{ form_row(registrationForm.zipcode) }}
 					</div>
-
 					<div class="my-2">
 						{{ form_row(registrationForm.city) }}
 					</div>
-
 					<div class="my-2">
 						{{ form_row(registrationForm.plainPassword) }}
-					</div>
-					
+					</div>				
 					{# {{ form_row(registrationForm.RGPD) }}
 					<p>
 						J'autorise le site RcCham à conserver mes données personelles transmises via ce formulaire.Aucune exploitation commerciale ne sera faite des données conservées.
@@ -52,11 +44,9 @@
 
 					</p> #}
 				</fieldset>
-
+				</div>
 				<button type="submit" class=" my-3">S'enregistrer</button>
-
-				<a class=" achat my-3" href="{{ path ('app_login')}}">Connexion</a>
-
+					<a class=" achat my-3" href="{{ path ('app_login')}}">Connexion</a>
 				{{ form_end(registrationForm) }}
 			</div>
 		</div>

@@ -14,20 +14,19 @@ Acceuil
 			<div class="col-12">
 				<h1 class="text-warning">bonjour</h1>
 				<p>Bienvenu sur RcCham le site dédié à notre passion commune</p>
-		{% if app.user %}
+				{% if app.user %}
 			</div>			
 				<div class="row col12  justify-content-around">
 					{% for category in categories %}
-					
 						{% if category.parent %}
-								<div class="row col-md-4 col-12 my-2 ">
-									<div class="card h-100">
-										<div class="card-body">
-											<h3 class="card-title">{{ category.name }}</h3>
-											<a href=" {{ path ('categories_list', {slug: category.slug} ) }} " class="achat">Voir les produits</a>
-										</div>
+							<div class="row col-md-4 col-12 my-2 ">
+								<div class="card h-100">
+									<div class="card-body">
+									<h3 class="card-title">{{ category.name }}</h3>
+									<a href=" {{ path ('categories_list', {slug: category.slug} ) }} " class="achat">Voir les produits</a>
 									</div>
 								</div>
+							</div>
 						{% else %}
 							<div class="col-12   category">
 								{{ category.name }}</h2>

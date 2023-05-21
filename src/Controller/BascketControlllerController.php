@@ -2,29 +2,23 @@
 
 namespace App\Controller;
 
-use App\Entity\Coupons;
 use App\Repository\ProductsRepository;
 use App\Service\Basket\BasketService;
-use App\Service\PdfService;
-use Doctrine\ORM\EntityManager;
+//use App\Service\PdfService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class BascketControlllerController extends AbstractController
 {
-
     public function __construct(
         private ProductsRepository $productsRepository,
         private BasketService $basketService,
         private RequestStack $requestStack,
         private EntityManagerInterface $em,
-
     ) {
     }
 
@@ -33,15 +27,14 @@ class BascketControlllerController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function index(): Response
     {
-
         $session = $this->requestStack->getSession();
         $codeDescription = $session->get('coupon', []);
-
-
         $bascketWithData = $this->basketService->getFullBasket();
         $total = $this->basketService->getTotal();
         $newTotal = 0;
+
         if ($codeDescription) {
+
             if ($codeDescription->getCouponsTypes()->getId() == 1) {
                 $newTotal = $total * 0.8;
             } elseif ($codeDescription->getCouponsTypes()->getId() == 2) {
@@ -49,7 +42,6 @@ class BascketControlllerController extends AbstractController
             }
             $session->set('totaldiscount',  $newTotal);
         }
-
 
         return $this->render('bascket/index.html.twig', [
             'bascketsWithData' => $bascketWithData,
@@ -129,24 +121,4 @@ class BascketControlllerController extends AbstractController
     //     ]);
     //     $pdfService->showPdfFile($html);
     // }
-
-
-    // $session = $this->requestStack->getSession();
-    // $codeDescription = $session->get('bascket', []);
-
-
-    // $content = json_decode($request->getContent(), true);
-    // $recipientName = $content['data'];
-    // $code = $em->getRepository(Coupons::class)->findOneBy([
-    //     'code' => $recipientName,
-    //     'is_valid' => true
-    // ]);
-
-    // if ($code != null) {
-    //     $codeDescription = $code->getDescription();
-    // }
-    // $session->set('bascket', $codeDescription);
-
-
-
 }

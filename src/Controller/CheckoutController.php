@@ -6,7 +6,6 @@ use App\Entity\Coupons;
 use App\Entity\Orders;
 use App\Entity\OrdersDetails;
 use App\Entity\Products;
-use App\Entity\Users;
 use App\Repository\OrdersRepository;
 use App\Repository\UsersRepository;
 use App\Service\Basket\BasketService;
@@ -21,7 +20,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CheckoutController extends AbstractController
 {
-
     protected $ordersRepository;
     private $entityManager;
     public function __construct(
@@ -36,6 +34,7 @@ class CheckoutController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
+
     #[Route('/checkout', name: 'checkout')]
     public function index(Request $request): Response
     {
@@ -46,13 +45,12 @@ class CheckoutController extends AbstractController
         $total = $this->basketService->getTotal();
         $coupon = null;
         $totalDiscount = null;
-
         $couponId = $session->get('coupon', []);
+
         if ($couponId) {
             $totalDiscount = $session->get('totaldiscount');
             $coupon = $this->entityManager->getRepository(Coupons::class)->find($couponId);
         }
-
         $order = (new Orders())
             ->setCoupons($coupon)
             ->setUsers($this->getUser())
@@ -62,26 +60,22 @@ class CheckoutController extends AbstractController
             ->setTotalDiscount($totalDiscount);
         $this->entityManager->persist($order);
         $this->entityManager->flush();
-
         $lastId = $this->ordersRepository->findOneBy([], ['id' => 'desc']);
 
         foreach ($bascket as $key => $value) {
             $productId = $key;
             $product = $this->entityManager->getRepository(Products::class)->find($productId);
             $stock = $product->getStock();
-
             $ordersDetails = (new OrdersDetails())
                 ->setOrders($lastId)
                 ->setQuantity($value)
                 ->setPrice($product->getPrice())
                 ->setProducts($product);
             $product->setstock($stock - $value);
-
-            //dump($stock);
             $this->entityManager->persist($ordersDetails);
             $this->entityManager->flush();
         }
-        dump($ordersDetails);
+
         $this->basketService->removeAll();
         $this->addFlash('success', 'Félicitation pour votre achat, nous traitons votre commande sous les plus brefs délais');
         return $this->redirectToRoute('main');

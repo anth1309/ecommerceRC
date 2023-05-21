@@ -8,21 +8,18 @@
 		</div>
 		<div class="card-body">
 			<p>
-				<a class='achat' href=" {{ path('admin_categories_index') }} ">Liste des Catégories</a>
-               
+			<a class='achat' href=" {{ path('admin_categories_index') }} ">Liste des Catégories</a>           
 			</p>
+			
 			{% if  is_granted('ROLE_ADMIN') %}
 			<p>
-				<a class='achat' href="{{ path('admin_categories_add') }}">Ajouter des Catégories</a>
+			<a class='achat' href="{{ path('admin_categories_add') }}">Ajouter des Catégories</a>
 			</p>
-				
-				{% else %}
-			
-					<p>
-				<a class='achat' href="#">Ajouter des Catégories</a>
+			{% else %}
+			<p>
+			<a class='achat' href="#">Ajouter des Catégories</a>
 			</p>
-				{% endif %}   
-			
+			{% endif %}   			
 		</div>
 	</article>
 
@@ -32,70 +29,61 @@
 		</div>
 		<div class="card-body">
 			<p>
-				<a class='achat' href="{{ path('admin_products_index') }}">Liste des Produits</a>
-               
+			<a class='achat' href="{{ path('admin_products_index') }}">Liste des Produits</a>        
 			</p>
 			<p>
-				<a class='achat' href="{{ path('admin_products_add') }}">Ajouter un Produits</a>
+			<a class='achat' href="{{ path('admin_products_add') }}">Ajouter un Produits</a>
 			</p>
 		</div>
 	</article>
 
-
 	<article class="card mb-3">
 		<div class="card-header">
 			Utilisateurs
-
 		</div>
 		<div class="card-body">
 			<p>
-				{% if  is_granted('ROLE_ADMIN') %}
-					
-					<p>
+			{% if  is_granted('ROLE_ADMIN') %}
+				<p>
 					<a class='achat' href="{{ path ('admin_users_index') }}">Liste des Utilisateurs</a>
 				</p>
 				<p>				
 					<a class='achat' href=" {{ path ('app_register')}}">Créer un Utilisateur</a>
 				</p>
-				{% else %}
-						<p>
+			{% else %}
+				<p>
 					<a class='achat' href="">Liste des Utilisateurs</a>
 				</p>
 				<p>				
 					<a class='achat' href="">Créer un Utilisateur</a>
 				</p>
-				{% endif %}            
+			{% endif %}            
 			</p>
-
 		</div>
 	</article>
 
 	<article class="card mb-3">
 		<div class="card-header">
 			Coupons
-
 		</div>
 		<div class="card-body">
 			<p>
-				{% if  is_granted('ROLE_ADMIN') %}
+			{% if  is_granted('ROLE_ADMIN') %}
 				<p>
 					<a class='achat' href=" {{ path ('admin_coupons_add') }} ">Creation coupons</a>
 				</p>
 				<p>				
 					<a class='achat' href=" {{ path ('admin_coupons_index') }} ">Envoie coupons</a>
 				</p>
-				{% else %}
-					<p>
+			{% else %}
+				<p>
 					<a class='achat' href="#">Creation coupons</a>
 				</p>
 				<p>				
 					<a class='achat' href="#">Envoie coupons</a>
 				</p>
-				{% endif %}            
+			{% endif %}            
 			</p>
-
 		</div>
 	</article>
-
-
 </aside>

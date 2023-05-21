@@ -14,13 +14,12 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
-    #[Route(path: '/connexion', name: 'app_login')]
 
+    #[Route(path: '/connexion', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -32,15 +31,15 @@ class SecurityController extends AbstractController
         ]);
     }
 
-    #[Route(path: '/déconnexion', name: 'app_logout')]
 
+    #[Route(path: '/déconnexion', name: 'app_logout')]
     public function logout(): void
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
 
-    #[Route('/oubli-pass', name: 'forgotten_password')]
 
+    #[Route('/oubli-pass', name: 'forgotten_password')]
     public function forgottenPassword(
         Request $request,
         UsersRepository $usersRepository,
@@ -85,11 +84,7 @@ class SecurityController extends AbstractController
     }
 
 
-
-
-
     #[Route('/oubli-pass/{token}', name: 'reset_pass')]
-
     public function resetPass(
         string $token,
         UsersRepository $usersRepository,
