@@ -80,7 +80,8 @@
 {% endif %}
 
 <div class="row col-12 my-2  justify-content-between h4">
-	{% if bascketsWithData is defined  %}
+	{% if bascketsWithData %}
+	 {# is defined #}
 		<a class='achat  col-3 text-center' href="{{ path ('checkout') }}">Valider mon panier</a>
 	{% endif %}
 		<a class='achat  col-3 text-center' href="{{ path ('main') }}">Continuer mes achats</a>

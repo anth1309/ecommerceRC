@@ -68,14 +68,20 @@ class CheckoutController extends AbstractController
         foreach ($bascket as $key => $value) {
             $productId = $key;
             $product = $this->entityManager->getRepository(Products::class)->find($productId);
+            $stock = $product->getStock();
+
             $ordersDetails = (new OrdersDetails())
                 ->setOrders($lastId)
                 ->setQuantity($value)
                 ->setPrice($product->getPrice())
                 ->setProducts($product);
+            $product->setstock($stock - $value);
+
+            //dump($stock);
             $this->entityManager->persist($ordersDetails);
             $this->entityManager->flush();
         }
+        dump($ordersDetails);
         $this->basketService->removeAll();
         $this->addFlash('success', 'Félicitation pour votre achat, nous traitons votre commande sous les plus brefs délais');
         return $this->redirectToRoute('main');

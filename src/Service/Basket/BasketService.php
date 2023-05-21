@@ -5,35 +5,40 @@ namespace App\Service\Basket;
 use App\Entity\Coupons;
 use App\Repository\ProductsRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
-class BasketService
+class BasketService extends AbstractController
 {
     protected $productRepository;
-    //private $flashBag;
     public function __construct(
         private RequestStack $requestStack,
         ProductsRepository $productRepository,
         private EntityManagerInterface $em,
-        //FlashBagInterface $flashBag,
+
 
     ) {
         $this->productRepository = $productRepository;
-        // $this->flashBag = $flashBag;
     }
 
 
 
     public function add(int $id)
     {
-
         $session = $this->requestStack->getSession();
         $bascket = $session->get('bascket', []);
+        $product = $this->productRepository->find($id);
         if (!empty($bascket[$id])) {
-            $bascket[$id]++;
+            if ($bascket[$id] < $product->getStock()) {
+                $bascket[$id]++;
+                dump($product);
+            } else {
+                $this->addFlash('warning', "Le stock est insuffisant pour rajouter un " . $product->getName() . " !");
+            }
         } else {
             $bascket[$id] = 1;
         }
@@ -116,7 +121,7 @@ class BasketService
         $code = $request->request->get('code');
         $couponType = null;
         if (!$code) {
-            // $this->flashBag->add('danger', 'Code promo manquant !');
+            $this->addFlash('danger', 'Code promo manquant !');
         }
         $codeCoupon = $this->em->getRepository(Coupons::class)->findOneBy([
             'code' => $code,
@@ -126,7 +131,7 @@ class BasketService
             $session->set('coupon', $codeCoupon);
             $couponType = $codeCoupon->getCouponsTypes()->getId();
         } else {
-            // $this->flashBag->add('danger', 'Code non valide !');
+            $this->addFlash('danger', 'Code promo non valide !');
         }
         return $couponType;
     }
