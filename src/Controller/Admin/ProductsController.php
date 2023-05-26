@@ -20,16 +20,25 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 #[IsGranted('ROLE_PRODUCT_ADMIN')]
 class ProductsController extends AbstractController
 {
+    public function __construct(
+        private ProductsRepository $productsRepository,
+        private EntityManagerInterface $em,
+        private SluggerInterface $slugger,
+        private PictureService $pictureService
+    ) {
+    }
+
+
     #[Route('/', name: 'index')]
-    public function index(ProductsRepository $productsRepository): Response
+    public function index(): Response
     {
-        $produits = $productsRepository->findAll();
+        $produits = $this->productsRepository->findAll();
         return $this->render('admin/products/index.html.twig', compact('produits'));
     }
 
 
     #[Route('/ajout', name: 'add')]
-    public function add(Request $request, EntityManagerInterface $em, SluggerInterface $slugger, PictureService $pictureService): Response
+    public function add(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_PRODUCT_ADMIN');
         $product = new Products();
@@ -39,15 +48,15 @@ class ProductsController extends AbstractController
             $images = $productForm->get('images')->getData();
             foreach ($images as $image) {
                 $folder = 'products';
-                $fichier = $pictureService->add($image, $folder, 300, 300);
+                $fichier = $this->pictureService->add($image, $folder, 300, 300);
                 $img = new Images();
                 $img->setName($fichier);
                 $product->addImage($img);
             }
-            $slug = $slugger->slug($product->getName());
+            $slug = $this->slugger->slug($product->getName());
             $product->setSlug($slug);
-            $em->persist($product);
-            $em->flush();
+            $this->em->persist($product);
+            $this->em->flush();
 
             $this->addFlash('success', 'Produit ajouté avec succès');
             return $this->redirectToRoute('admin_products_index');
@@ -60,7 +69,7 @@ class ProductsController extends AbstractController
 
 
     #[Route('/edition/{id}', name: 'edit')]
-    public function edit(Products $product, Request $request, EntityManagerInterface $em, SluggerInterface $slugger, PictureService $pictureService): Response
+    public function edit(Products $product, Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_PRODUCT_ADMIN', $product);
         $productForm = $this->createForm(ProductsFormType::class, $product);
@@ -69,15 +78,15 @@ class ProductsController extends AbstractController
             $images = $productForm->get('images')->getData();
             foreach ($images as $image) {
                 $folder = 'products';
-                $fichier = $pictureService->add($image, $folder, 300, 300);
+                $fichier = $this->pictureService->add($image, $folder, 300, 300);
                 $img = new Images();
                 $img->setName($fichier);
                 $product->addImage($img);
             }
-            $slug = $slugger->slug($product->getName());
+            $slug = $this->slugger->slug($product->getName());
             $product->setSlug($slug);
-            $em->persist($product);
-            $em->flush();
+            $this->em->persist($product);
+            $this->em->flush();
 
             $this->addFlash('success', 'Produit modifié avec succès');
             return $this->redirectToRoute('admin_products_index');

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Coupons;
 use App\Repository\ProductsRepository;
 use App\Service\Basket\BasketService;
 //use App\Service\PdfService;
@@ -36,9 +37,9 @@ class BascketControlllerController extends AbstractController
         if ($codeDescription) {
 
             if ($codeDescription->getCouponsTypes()->getId() == 1) {
-                $newTotal = $total * 0.8;
+                $newTotal = $total * ((100 - $codeDescription->getDiscount()) / 100);
             } elseif ($codeDescription->getCouponsTypes()->getId() == 2) {
-                $newTotal = $total - 10000;
+                $newTotal = $total - ($codeDescription->getDiscount() * 100);
             }
             $session->set('totaldiscount',  $newTotal);
         }
@@ -56,7 +57,22 @@ class BascketControlllerController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function add($id)
     {
-        $this->basketService->add($id);
+        $session = $this->requestStack->getSession();
+        $bascket = $session->get('bascket', []);
+        $product = $this->productsRepository->find($id);
+
+        if (!empty($bascket[$id])) {
+            if ($bascket[$id] < $product->getStock()) {
+                $bascket[$id]++;
+            } else {
+                $this->addFlash('warning', "Le stock est insuffisant pour rajouter un " . $product->getName() . " !");
+            }
+        } else {
+            $bascket[$id] = 1;
+        }
+        $session->set('bascket', $bascket);
+
+
         return $this->redirectToRoute('bascket_index');
     }
 
@@ -101,11 +117,27 @@ class BascketControlllerController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function addCouponAction()
     {
-        $this->basketService->addCoupon();
+        $session = $this->requestStack->getSession();
+        $request = $this->requestStack->getCurrentRequest();
+        $code = $request->request->get('code');
+        $couponType = null;
 
+        if (!$code) {
+            $this->addFlash('danger', 'Code promo manquant !');
+        }
+        $codeCoupon = $this->em->getRepository(Coupons::class)->findOneBy([
+            'code' => $code,
+            'is_valid' => true
+        ]);
+
+        if ($codeCoupon) {
+            $session->set('coupon', $codeCoupon);
+            $couponType = $codeCoupon->getCouponsTypes()->getId();
+        } else {
+            $this->addFlash('danger', 'Code promo non valide !');
+        }
         return $this->redirectToRoute('bascket_index');
     }
-
 
 
 

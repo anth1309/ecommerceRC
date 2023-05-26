@@ -37,6 +37,12 @@ class Orders
     #[ORM\Column(nullable: true)]
     private ?int $totalDiscount = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $isPaid = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?string $srtipeSessionId = null;
+
     public function __construct()
     {
         $this->ordersDetails = new ArrayCollection();
@@ -136,6 +142,30 @@ class Orders
     public function setTotalDiscount(?int $totalDiscount): self
     {
         $this->totalDiscount = $totalDiscount;
+
+        return $this;
+    }
+
+    public function isIsPaid(): ?bool
+    {
+        return $this->isPaid;
+    }
+
+    public function setIsPaid(?bool $isPaid): self
+    {
+        $this->isPaid = $isPaid;
+
+        return $this;
+    }
+
+    public function getSrtipeSessionId(): ?string
+    {
+        return $this->srtipeSessionId;
+    }
+
+    public function setSrtipeSessionId(?string $srtipeSessionId): self
+    {
+        $this->srtipeSessionId = $srtipeSessionId;
 
         return $this;
     }

@@ -53,13 +53,13 @@ class SecurityController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $usersRepository->findOneByEmail($form->get('email')->getData());
             if ($user) {
-                $token = $tokenGenerator->generateToken();
-                $user->setResetToken($token);
+                $resetToken = $tokenGenerator->generateToken();
+                $user->setResetToken($resetToken);
                 $entityManager->persist($user);
                 $entityManager->flush();
                 $url = $this->generateUrl(
                     'reset_pass',
-                    ['token' => $token],
+                    ['token' => $resetToken],
                     UrlGeneratorInterface::ABSOLUTE_URL
                 );
                 $context = compact('url', 'user');

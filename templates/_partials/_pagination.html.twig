@@ -1,33 +1,33 @@
 {% if pages > 1 %}
 
-	<nav>
-		<ul class="pagination">
+	<nav class=''>
+		<ul class="pagination ">
 			{% if currentPage > 1 %}
-				<li class="page-item">
-					<a href="{{path(path, {slug: slug,page: currentPage - 1 } )}}" class="page-link">&lt;</a>
+				<li class="page-item text-warning  col-1 ">
+					<a href="{{path(path, {slug: slug,page: currentPage - 1 } )}}" class="page-link  pagin">&lt;</a>
 				</li>
 			{% else %}
-				<li class="page-item disabled">
-					<a href="{{path(path, {slug: slug,page: currentPage - 1 } )}}" class="page-link">&lt;</a>
+				<li class="page-item disabled col-1 ">
+					<a href="{{path(path, {slug: slug,page: currentPage - 1 } )}}" class="page-link  pagin ">&lt;</a>
 				</li>
 			{% endif %}
 
 			{% for page in 1..pages %}
 				<li
-					class="page-item {{ (page == currentPage) ? 'active' : '' }}">
+					class="page-item {{ (page == currentPage) ? 'active' : '' }} col-2 ">
 					{#se lit si page == currentP alors elle est active sinon rien #}
-					<a href="{{path(path, {slug: slug,page: page } )}}" class="page-link">{{ page }}</a>
+					<a href="{{path(path, {slug: slug,page: page } )}}" class="page-link pagin">{{ page }}</a>
 				</li>
 			{% endfor %}
 
 			{% if currentPage < pages %}
-				<li class="page-item">
-					<a href="{{path(path, {slug: slug,page: currentPage + 1 } )}}" class="page-link">&gt;</a>
+				<li class="page-item col-1 ">
+					<a href="{{path(path, {slug: slug,page: currentPage + 1 } )}}" class="page-link  pagin">&gt;</a>
 				</li>
 
 			{% else %}
-				<li class="page-item disables">
-					<a class="page-link">&gt;</a>
+				<li class="page-item disables col-1 ">
+					<a class="page-link  pagin">&gt;</a>
 				</li>
 			{% endif %}
 

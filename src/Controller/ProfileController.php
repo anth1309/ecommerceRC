@@ -38,7 +38,7 @@ class ProfileController extends AbstractController
     public function orders(): Response
     {
         $user = $this->getUser();
-        $orders = $this->em->getRepository(Orders::class)->findBy(['users' => $user], ['created_at' => 'desc']);
+        $orders = $this->em->getRepository(Orders::class)->findBy(['users' => $user, 'isPaid' => true], ['created_at' => 'desc']);
 
         return $this->render('orders/index.html.twig', [
             'orders' => $orders,

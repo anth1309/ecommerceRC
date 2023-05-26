@@ -54,16 +54,20 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?Bool $is_verified = false;
 
-    #[ORM\Column(length: 128)]
+    #[ORM\Column(length: 128, nullable: true)]
     private ?string $resetToken = null;
 
     #[ORM\OneToMany(mappedBy: 'users', targetEntity: Orders::class)]
     private Collection $orders;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: DelivrysAddress::class)]
+    private Collection $delivrysAddresses;
+
     public function __construct()
     {
         $this->orders = new ArrayCollection();
         $this->created_at = new DateTimeImmutable();
+        $this->delivrysAddresses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -250,6 +254,36 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     public function setResetToken(?string $resetToken): self
     {
         $this->resetToken = $resetToken;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, DelivrysAddress>
+     */
+    public function getDelivrysAddresses(): Collection
+    {
+        return $this->delivrysAddresses;
+    }
+
+    public function addDelivrysAddress(DelivrysAddress $delivrysAddress): self
+    {
+        if (!$this->delivrysAddresses->contains($delivrysAddress)) {
+            $this->delivrysAddresses->add($delivrysAddress);
+            $delivrysAddress->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDelivrysAddress(DelivrysAddress $delivrysAddress): self
+    {
+        if ($this->delivrysAddresses->removeElement($delivrysAddress)) {
+            // set the owning side to null (unless already changed)
+            if ($delivrysAddress->getUser() === $this) {
+                $delivrysAddress->setUser(null);
+            }
+        }
 
         return $this;
     }

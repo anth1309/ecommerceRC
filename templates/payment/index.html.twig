@@ -1,0 +1,135 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Payement{% endblock %}
+
+{% block body %}
+<main class="container">
+    <article class="row">
+           
+		<div class="col-12 my-3">
+			<h1>{{ app.user.firstname|capitalize }}
+				,récapitulatif de votre commande</h1>
+		</div>
+		<section class='col-md-4 col-12'>
+			<div class="card" style="width: 18rem;">
+				<div class="card-body">
+					<h5 class="card-title">Adresse de facturation</h5>
+					<p class="card-text">
+					<p> {{ user.adress|capitalize }} </p>
+					<p>{{ user.zipcode }}</p>
+					<p>{{ user.city|capitalize }}</p>
+					<p>{{ user.email }}</p>
+					<p>Si vous souhaitez être livré sur un autre lieu</p>
+					<a href="{{ path ('checkout_delivryAdress') }}" class="achat col-12 3 text-center">Ajouter une adresse</a>
+					</p>
+					
+				</div>
+			</div>
+		</section>
+		<section class='col-md-8 col-12'>
+		<table class="table">
+			<thead>
+				<tr>
+				<th>Produit</th>
+				<th>Prix</th>
+				<th>Quantité</th>
+				<th>Total</th>
+				<th></th>
+				</tr>
+			</thead>
+			<tbody>	
+				{% for detail in details %}
+			
+				<tr class="my-1">
+					<td>{{ detail.products.name }}</td>
+					<td>{{ detail.products.price}}</td>
+					<td>{{ detail.quantity }}</td>
+					<td>{{ ((detail.quantity )*(detail.products.price))/100}}</td>			
+				</tr>
+				{% endfor %}
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan='3' class="text-right">Total :</td>
+					<td id="total">{{ (orderSummary.total)/100 }} €</td>			
+				</tr>
+				{% if orderSummary.coupons != null %} 
+				<tr> 
+					<td colspan="4">Vous avez bénéficiez de : {{ orderSummary.coupons.description | capitalize }} </td> 
+					
+				</tr>
+				<tr>
+				<td colspan="3">Le prix total aprés remise est de :</td>
+				
+					<td>{{ (orderSummary.totalDiscount)/100 }} € </td>
+					{% endif %}
+				</tr>
+			</tfoot>
+		</table>
+			<form action="{{ path ('payement_stripe',{'reference': orderSummary.reference }) }}" method="POST" >				
+				<div class="">
+					<button type="submit">Payer par Stripe : {{( (orderSummary.totalDiscount) ? orderSummary.totalDiscount : orderSummary.total)/100}}  € </button>
+				</div>
+			</form>
+		</section>
+		{% if adressAdd %}
+		
+		<section class='my-2'>
+			<div class="card" style="width: 18rem;">
+				<div class="card-body">
+					<h5 class="card-title">Votre adresse de livraison</h5>
+					<h6 class="card-subtitle mb-2 text-muted">{{ adressAdd.name|capitalize }}</h6>
+					<p class="card-text">
+					<p> {{ adressAdd.address|capitalize }} </p>
+					<p>{{ adressAdd.zipcode }}</p>
+					<p>{{ adressAdd.city|capitalize }}</p>
+					
+					
+				</div>
+			</div>
+		
+		</section>
+		{% endif %}
+    </article>
+</main>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+{# <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Nouvelle adresse de livraison</h5>
+        <p type="button" class="text-danger" data-bs-dismiss="modal" aria-label="Close"><i class="fa-regular fa-rectangle-xmark"></i></p>
+      </div>
+      <div class="modal-body">
+	  		{{ form_start( delivryForm ) }}
+				<div class='row'>
+				
+					<div class="my-2">
+						{{ form_row(delivryForm.name) }}
+					</div>
+					<div class="my-2">
+						{{ form_row(delivryForm.address) }}
+					</div>
+					<div class="my-2">
+						{{ form_row(delivryForm.zipcode) }}
+					</div>
+					<div class="my-2">
+						{{ form_row(delivryForm.city) }}
+					</div>
+					
+				<button type="submit" class=" my-3">S'enregistrer</button>
+					
+				{{ form_end(delivryForm) }}
+      </div>   
+    </div>
+  </div>
+</div> #}

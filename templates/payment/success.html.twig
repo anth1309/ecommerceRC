@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Payement{% endblock %}
+
+{% block body %}
+<main class="container">
+        <section class="row">
+           
+	<div class="col-12 my-3">
+		<h1>{{ app.user.firstname|capitalize }}</h1>
+        <p>Votre commande va être traité dans les plus bref délais</p>
+        <p>Un courriel vous informera de l'avencement dans les différentes étapes</p>
+        <p>En espérant vous revoir très vite .</p>
+        <p>Merci RcCham</p>
+	
+				
+				<div >
+					<a class='achat' href=" {{ path ('main') }} ">retour a l 'accueil</a>
+				</div>
+  </div>
+  </section>
+</main>
+{% endblock %}

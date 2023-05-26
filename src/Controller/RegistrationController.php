@@ -22,10 +22,16 @@ class RegistrationController extends AbstractController
 {
     private $formFactory;
 
-    public function __construct(FormFactoryInterface $formFactory)
-    {
+    public function __construct(
+        FormFactoryInterface $formFactory,
+        private  EntityManagerInterface $em
+    ) {
         $this->formFactory = $formFactory;
     }
+
+
+
+
 
     #[Route('/inscription', name: 'app_register')]
     public function register(
@@ -33,7 +39,6 @@ class RegistrationController extends AbstractController
         UserPasswordHasherInterface $userPasswordHasher,
         UserAuthenticatorInterface $userAuthenticator,
         UsersAuthenticator $authenticator,
-        EntityManagerInterface $entityManager,
         SendMailService $mail,
         JWTService $jwt
     ): Response {
@@ -56,8 +61,8 @@ class RegistrationController extends AbstractController
                 )
             );
             $user->setRoles(["ROLE_USER"]);
-            $entityManager->persist($user);
-            $entityManager->flush();
+            $this->em->persist($user);
+            $this->em->flush();
 
             $header = [
                 'typ' => 'JWT',
@@ -95,7 +100,7 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/verif/{token}', name: 'verify_user')]
-    public function verifyUser($token, JWTService $jwt, UsersRepository $usersRepository, EntityManagerInterface $entityManager): Response
+    public function verifyUser($token, JWTService $jwt, UsersRepository $usersRepository): Response
     {
         if (
             $jwt->isValid($token) && !$jwt->isExpired($token) &&
@@ -108,7 +113,7 @@ class RegistrationController extends AbstractController
             //verif user existe et n a pas active son compte
             if ($user && !$user->getIs_Verified()) {
                 $user->setIs_Verified(true);
-                $entityManager->flush($user);
+                $this->em->flush($user);
                 $this->addFlash('success', 'Utilisateur activé');
                 return $this->redirectToRoute('profile_index');
             }

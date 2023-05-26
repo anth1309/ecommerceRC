@@ -2,17 +2,13 @@
 
 namespace App\Service\Basket;
 
-use App\Entity\Coupons;
+
 use App\Repository\ProductsRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
-class BasketService extends AbstractController
+
+class BasketService
 {
     protected $productRepository;
     public function __construct(
@@ -22,27 +18,6 @@ class BasketService extends AbstractController
     ) {
         $this->productRepository = $productRepository;
     }
-
-
-    public function add(int $id)
-    {
-        $session = $this->requestStack->getSession();
-        $bascket = $session->get('bascket', []);
-        $product = $this->productRepository->find($id);
-
-        if (!empty($bascket[$id])) {
-            if ($bascket[$id] < $product->getStock()) {
-                $bascket[$id]++;
-                dump($product);
-            } else {
-                $this->addFlash('warning', "Le stock est insuffisant pour rajouter un " . $product->getName() . " !");
-            }
-        } else {
-            $bascket[$id] = 1;
-        }
-        $session->set('bascket', $bascket);
-    }
-
 
     public function remove(int $id)
     {
@@ -56,7 +31,6 @@ class BasketService extends AbstractController
         }
         $session->set('bascket', $bascket);
     }
-
 
     public function cut(int $id)
     {
@@ -112,6 +86,8 @@ class BasketService extends AbstractController
         $session = $this->requestStack->getSession();
         $session->remove("bascket");
         $session->remove('coupon');
+        $session->remove('adressAdd');
+        $session->remove('details');
     }
 
 
@@ -119,31 +95,5 @@ class BasketService extends AbstractController
     {
         $session = $this->requestStack->getSession();
         $session->remove('coupon');
-    }
-
-
-    public function addCoupon()
-    {
-        $session = $this->requestStack->getSession();
-        $request = $this->requestStack->getCurrentRequest();
-        $code = $request->request->get('code');
-        $couponType = null;
-
-        if (!$code) {
-            $this->addFlash('danger', 'Code promo manquant !');
-        }
-        $codeCoupon = $this->em->getRepository(Coupons::class)->findOneBy([
-            'code' => $code,
-            'is_valid' => true
-        ]);
-
-        if ($codeCoupon) {
-            $session->set('coupon', $codeCoupon);
-            $couponType = $codeCoupon->getCouponsTypes()->getId();
-        } else {
-            $this->addFlash('danger', 'Code promo non valide !');
-        }
-
-        return $couponType;
     }
 }

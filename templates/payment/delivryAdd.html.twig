@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Payement add address{% endblock %}
+
+{% block body %}
+<main class="container">
+    <section class='row col-12'>
+        <article class='col-md-6 col-12'>
+        {% if delivryForm|length > 0 %}
+	  		{{ form_start(delivryForm) }}
+			<article class='row'>
+				<div class="my-2">
+					{{ form_row(delivryForm.name) }}
+				</div>
+				<div class="my-2">
+					{{ form_row(delivryForm.address) }}
+				</div>
+				<div class="my-2">
+					{{ form_row(delivryForm.zipcode) }}
+				</div>
+				<div class="my-2">
+					{{ form_row(delivryForm.city) }}
+				</div>
+				
+				<button type="submit" class="my-3">Enregistrer</button>
+					
+				{{ form_end(delivryForm) }}
+            {% endif %}
+			</article>
+        </article>
+
+    {% if adressExist %}
+        <article class='col-md-6 col-12'>
+        	<div><h1>Choisir une adresse deja enregistré</h1></div>
+            {% for adress in adressExist %}
+            <div class="card my-2">
+                <div class="card-header">
+                    {{ adress.name }}
+                </div>
+                <div class="card-body">
+                    <p class="card-text"> {{ adress.address }}</p>
+                    <p class="card-text"> {{ adress.zipcode }}</p>
+                    <p class="card-text"> {{ adress.city }}</p>
+                    <p class='d-flex justify-content-between'>
+                        <a href=" {{ path ('checkout_addDelivry', {id: adress.id} )}}" class="achat text-center mx-1 col-6">Choisir cette adresse</a>
+                        <a href=" {{ path ('checkout_deleteAdress', {id: adress.id}) }}" class="delete text-center mx-1 col-6">Supprimer</a>
+                    </p>
+                </div>
+            </div>    
+            {% endfor %}
+        </article>  
+        {% else %}
+             <article class='col-md-6 col-12 text-center mt-4'>
+			<img src="{{ asset('uploads/fondEcran/FondEcran.jpg' ) }}" alt="Bc8-Mammoth" class='w-100 h-100'>
+			  </article> 
+        {% endif %}
+    </section>
+</main>
+{% endblock %}

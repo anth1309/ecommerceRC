@@ -18,23 +18,26 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted('ROLE_ADMIN')]
 class UsersController extends AbstractController
 {
-    private $formFactory;
-    public function __construct(FormFactoryInterface $formFactory)
-    {
-        $this->formFactory = $formFactory;
+
+    public function __construct(
+        private FormFactoryInterface $formFactory,
+        private EntityManagerInterface $em,
+        private OrdersRepository $orders,
+        private UsersRepository $usersRepository,
+    ) {
     }
 
 
     #[Route('/', name: 'index')]
-    public function index(UsersRepository $usersRepository): Response
+    public function index(): Response
     {
-        $users = $usersRepository->findBy([], ['lastname' => 'asc']);
+        $users = $this->usersRepository->findBy([], ['lastname' => 'asc']);
         return $this->render('admin/users/index.html.twig', compact('users'));
     }
 
 
     #[Route('/edition/{id}', name: 'edit')]
-    public function edit(Users $user, Request $request, EntityManagerInterface $em)
+    public function edit(Request $request, Users $user)
     {
         $formBuilderPartiel = $this->formFactory->createBuilder(RegistrationFormType::class, $user);
         $formBuilderPartiel->remove('plainPassword');
@@ -42,8 +45,8 @@ class UsersController extends AbstractController
         $userFormPartiel->handleRequest($request);
 
         if ($userFormPartiel->isSubmitted() && $userFormPartiel->isValid()) {
-            $em->persist($user);
-            $em->flush();
+            $this->em->persist($user);
+            $this->em->flush();
 
             $this->addFlash('success', 'Utilisateur modifié avec succès');
             return $this->redirectToRoute('admin_users_index');
@@ -57,20 +60,16 @@ class UsersController extends AbstractController
 
 
     #[Route('/detete/{id}', name: 'delete')]
-    public function delete(
-        $id,
-        EntityManagerInterface $em,
-        UsersRepository $usersRepository,
-        OrdersRepository $orders
-    ): Response {
-        $userDelete = $usersRepository->find($id);
-        $ordersUser = $orders->findBy(['users' => $id]);
+    public function delete($id): Response
+    {
+        $userDelete = $this->usersRepository->find($id);
+        $ordersUser = $this->orders->findBy(['users' => $id]);
 
         if ($ordersUser) {
             $this->addFlash('warning', 'Vous ne pouvez pas supprimer cet utilisateur car il a des commandes');
         } else {
-            $em->remove($userDelete);
-            $em->flush();
+            $this->em->remove($userDelete);
+            $this->em->flush();
         }
         return $this->redirectToRoute('admin_users_index');
     }

@@ -15,28 +15,35 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 #[Route('/admin/categories', name: 'admin_categories_')]
 class CategoriesController extends AbstractController
 {
+    public function __construct(
+        private CategoriesRepository $categoriesRepository,
+        private EntityManagerInterface $em,
+        private SluggerInterface $slugger,
+    ) {
+    }
+
 
     #[Route('/', name: 'index')]
-    public function index(CategoriesRepository $categoriesRepository): Response
+    public function index(): Response
 
     {
-        $categories = $categoriesRepository->findBy([], ['categoryOrder' => 'asc']);
+        $categories = $this->categoriesRepository->findBy([], ['categoryOrder' => 'asc']);
         return $this->render('admin/categories/index.html.twig', compact('categories'));
     }
 
     #[Route('/ajout', name: 'add')]
-    public function add(Request $request, EntityManagerInterface $em, SluggerInterface $slugger, CategoriesRepository $categoriesRepository): Response
+    public function add(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $category = new Categories();
         $categoryForm = $this->createForm(CategoriesFormType::class, $category);
         $categoryForm->handleRequest($request);
         if ($categoryForm->isSubmitted() && $categoryForm->isValid()) {
-            $category->setSlug($slugger->slug($category->getName())->lower());
-            $lastCategory = $categoriesRepository->findOneBy([], ['categoryOrder' => 'desc']);
+            $category->setSlug($this->slugger->slug($category->getName())->lower());
+            $lastCategory = $this->categoriesRepository->findOneBy([], ['categoryOrder' => 'desc']);
             $category->setCategoryOrder($lastCategory->getCategoryOrder() + 1);
-            $em->persist($category);
-            $em->flush();
+            $this->em->persist($category);
+            $this->em->flush();
 
             $this->addFlash('success', 'Catégorie ajouté avec succès');
 

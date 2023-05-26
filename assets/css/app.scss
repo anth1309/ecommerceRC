@@ -2,31 +2,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Public+Sans&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+$warning: #ff9c00;
+$grey2: #aaaaa9;
+$yellow: #fdbe0f; // jaune
+
+
 $black: black;
 $darkgrey: #424b58; // bleu
 $darkgreylight: adjust-color($darkgrey, $lightness: +15%);
+$bronze: #b39672;
 $grey: #8d8e91; // gris foncé
-$grey2: #aaaaa9;
 $brown: #6e6666;
 $lightgrey: #ecedee; // gris clair
 $dimbluewhite: #f7fafe;
 $dimwhite: #f9f9fa;
 $white: #ffffff;
-$yellow: #fdbe0f; // jaune
 $lightyellow: adjust-color($yellow, $lightness: +8%);
 $darkyellow: adjust-color($yellow, $lightness: -8%);
 $green: #233d38;
 $lightGreen: #39B55C;
 $danger: #d61515;
 $danger_light: adjust-color($danger, $lightness: +50%);
-$warning: #ff9c00;
 $warning_light: adjust-color($warning, $lightness: +48%);
 $success: #29a807;
 $success_light: adjust-color($success, $lightness: +62%);
 $info: dodgerblue;
 $info_light: adjust-color($info, $lightness: +40%);
 $off: #727272;
-$bronze: #b39672;
 $silver: #999fac;
 $gold: #d1bb67;
 $border: 1px solid rgba($yellow, .5);
@@ -34,8 +36,6 @@ $border: 1px solid rgba($yellow, .5);
 .card {
     background: $grey2;
 }
-
-
 
 .bg-ema {
     background: #FDBE0F;
@@ -51,6 +51,15 @@ $border: 1px solid rgba($yellow, .5);
 
 .achat {
     background: #FDBE0F;
+    color: white;
+    border-radius: 30px;
+    text-decoration: none;
+    padding: 0.2em 0.7em 0.2em 0.7em;
+    font-size: 2vh;
+}
+
+.delete {
+    background: $danger;
     color: white;
     border-radius: 30px;
     text-decoration: none;
@@ -99,13 +108,11 @@ $border: 1px solid rgba($yellow, .5);
 
 }
 
-
 .card-body {
     display: flex;
     flex-direction: column;
 
 }
-
 
 html,
 body {
@@ -159,6 +166,7 @@ button {
     border-radius: 30px;
     text-decoration: none;
     font-size: 3vh;
+    border: none;
 }
 
 .input-group-addon {
@@ -169,11 +177,6 @@ button {
     background-color: $silver;
 }
 
-
-//btn submitt
-
-
-
-// h1 {
-//     font-size: 24;
-// }
+.pagin {
+    text-align: center;
+}

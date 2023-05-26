@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Payement{% endblock %}
+
+{% block body %}
+<main class="container">
+        <section class="row">
+           
+	<div class="col-12 my-3">
+		<h1>{{ app.user.firstname|capitalize }}</h1>
+        <p>VLe paiement a échoué,</p>
+        <p>Cliquez ici pour essayer de nouveau</p>
+      
+	
+				
+				<div class="">
+					<a href=" {{ path ('payement_stripe') }} ">Réessayer</a>
+				</div>
+			</form>
+
+
+
+</div>
+     </section>
+    </main>
+{% endblock %}

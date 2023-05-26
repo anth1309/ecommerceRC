@@ -20,16 +20,25 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted('ROLE_ADMIN')]
 class CouponsController extends AbstractController
 {
+    public function __construct(
+        private CouponsRepository $couponsRepository,
+        private EntityManagerInterface $em,
+        private  SendMailService $mail,
+        private UsersRepository $usersRepository,
+    ) {
+    }
+
+
     #[Route('/', name: 'index')]
-    public function index(CouponsRepository $couponsRepository): Response
+    public function index(): Response
 
     {
-        $coupons = $couponsRepository->findBy([], ['created_at' => 'asc']);
+        $coupons = $this->couponsRepository->findBy([], ['created_at' => 'asc']);
         return $this->render('admin/coupons/index.html.twig', compact('coupons'));
     }
 
     #[Route('/ajout', name: 'add')]
-    public function add(Request $request, EntityManagerInterface $em,  CouponsRepository $couponsRepository): Response
+    public function add(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $coupon = new Coupons();
@@ -37,8 +46,8 @@ class CouponsController extends AbstractController
         $couponForm->handleRequest($request);
         if ($couponForm->isSubmitted() && $couponForm->isValid()) {
             $coupon->setCreatedAt(new DateTimeImmutable('now'));
-            $em->persist($coupon);
-            $em->flush();
+            $this->em->persist($coupon);
+            $this->em->flush();
 
             $this->addFlash('success', 'Coupons créer avec succès');
             return $this->redirectToRoute('admin_categories_index');
@@ -51,20 +60,17 @@ class CouponsController extends AbstractController
 
     #[Route("/admin/coupons/{id}", name: "send")]
     public function sendCoupon(
-        $id,
-        SendMailService $mail,
-        UsersRepository $usersRepository,
-        CouponsRepository $couponsRepository,
+        $id
     ) {
-        $users = $usersRepository->createQueryBuilder('u')
+        $users = $this->usersRepository->createQueryBuilder('u')
             ->where('u.roles LIKE :role')
             ->setParameter('role', '%"ROLE_USER"%')
             ->getQuery()
             ->getResult();
-        $coupon = $couponsRepository->find($id);
+        $coupon = $this->couponsRepository->find($id);
 
         foreach ($users as $user) {
-            $mail->send(
+            $this->mail->send(
                 'no-reply@rccham.com',
                 $user->getEmail(),
                 'Super promo',
